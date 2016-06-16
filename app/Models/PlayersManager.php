@@ -4,10 +4,21 @@ namespace App\Models;
 
 use App\Ws\Connection;
 
+/**
+ * Class PlayersManager
+ * @package App\Models
+ * Manages all the connections of users
+ */
 class PlayersManager
 {
     private $rooms = [];
 
+    /**
+     * Handle user connection
+     *
+     * @param Connection $connection : The connection
+     * @param $roles : The roles wanted by the connection
+     */
     public function userConnected(Connection $connection, $roles)
     {
         $userRoles = [];
@@ -28,6 +39,12 @@ class PlayersManager
         $connection->setRoom($newRoom);
     }
 
+    /**
+     * Creates a room (if no room has been found)
+     * @param $connection : The user
+     * @param $userRoles : The roles wanted by the user
+     * @return Room : A new room
+     */
     private function createRoom($connection, $userRoles)
     {
         // The player takes its most wanted place
@@ -37,6 +54,10 @@ class PlayersManager
         return $room;
     }
 
+    /**
+     * Handle User disconnection
+     * @param Connection $connection : The User
+     */
     public function userLeave(Connection $connection)
     {
         if (!$connection->getRoom()) {
