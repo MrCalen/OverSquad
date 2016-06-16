@@ -2,16 +2,13 @@
 
 namespace App\Models;
 
+use App\Ws\Connection;
+
 class PlayersManager
 {
     private $rooms = [];
 
-    public function __construct()
-    {
-        $this->rooms = [];
-    }
-
-    public function userConnected($user, $roles)
+    public function userConnected(Connection $connection, $roles)
     {
         $userRoles = [];
         foreach ($roles as $role) {
@@ -19,25 +16,32 @@ class PlayersManager
         }
 
         $newRoom = null;
-        foreach ($this->rooms as $room) {
-            if (($newRoom = $room->playerJoin($user, $roles)) != null) {
+        foreach ($this->rooms as $roomId => $room) {
+            if (($newRoom = $room->playerJoin($connection, $userRoles)) != null) {
                 break;
             }
         }
         if (!$newRoom) {
-            $this->createRoom($user, $userRoles);
+            $newRoom = $this->createRoom($connection, $userRoles);
         }
+
+        $connection->setRoom($newRoom);
     }
 
-    private function createRoom($user, $userRoles)
+    private function createRoom($connection, $userRoles)
     {
-        // The player takes the most wanted place
+        // The player takes its most wanted place
         $room = new Room();
-        $room->assignPlayerToRole($user, $userRoles[0]);
-        $this->rooms[] = $room;
+        $room->assignPlayerToRole($connection, $userRoles[0]);
+        $this->rooms[$room->getId()] = $room;
         return $room;
     }
 
-    public function userLeave($user)
-    {}
+    public function userLeave(Connection $connection)
+    {
+        if (!$connection->getRoom()) {
+            return;
+        }
+        $connection->getRoom()->removeUser($connection);
+    }
 }

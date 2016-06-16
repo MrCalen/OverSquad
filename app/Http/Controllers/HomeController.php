@@ -4,6 +4,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\PlayersManager;
+use App\Ws\Connection;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -11,20 +13,29 @@ class HomeController extends Controller
     {
         $playerManager = new PlayersManager();
 
-        $roles = [1, 2];
-        $user = new \stdClass();
+        $id = 0;
+        $leaver = $this->randomPlayer($id++);
+        $playerManager->userConnected($leaver, [1]);
+        $playerManager->userConnected($this->randomPlayer($id++), [2]);
+        $playerManager->userConnected($this->randomPlayer($id++), [2]);
+        $playerManager->userConnected($this->randomPlayer($id++), [1]);
+        $playerManager->userConnected($this->randomPlayer($id++), [4]);
+        $playerManager->userConnected($this->randomPlayer($id++), [3]);
+        $playerManager->userConnected($this->randomPlayer($id++), [1]);
 
-        $playerManager->userConnected($user, $roles);
+        $playerManager->userLeave($leaver);
+        $playerManager->userConnected($leaver, [1]);
 
-
-
-        dd($playerManager);
-//        return view('home/home');
+        return view('home/home');
     }
 
-    private function randomPlayer()
+    private function randomPlayer($id)
     {
+        $user = new User();
+        $user->id = $id;
+
+        $connection = new Connection(null);
+        $connection->setUser($user);
+        return $connection;
     }
-
 }
-

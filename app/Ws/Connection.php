@@ -2,10 +2,15 @@
 
 namespace App\Ws;
 
+use App\User;
+
 class Connection
 {
     protected $connection;
     protected $user;
+
+    protected $room;
+    protected $role;
 
     public function __construct($connection)
     {
@@ -27,8 +32,33 @@ class Connection
         return $this->user;
     }
 
-    public function setUser($user)
+    public function setUser(User $user)
     {
         $this->user = $user;
+    }
+
+    public function getId()
+    {
+        return $this->user->id;
+    }
+
+    public function getRoom()
+    {
+        return $this->room;
+    }
+
+    public function setRoom($room)
+    {
+        $this->room = $room;
+    }
+
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    public function setRole($role)
+    {
+        $this->role = $role;
     }
 }

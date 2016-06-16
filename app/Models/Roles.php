@@ -31,10 +31,15 @@ abstract class Roles
         return -1;
     }
 
+    public static function stringToRole($str)
+    {
+        return array_flip(self::$ROLES)[$str];
+    }
+
     public static function maxPerRole($role)
     {
         switch ($role) {
-            case Roles::ATTACK:
+            case 'attack':
                 return 3;
             default:
                 return 1;
