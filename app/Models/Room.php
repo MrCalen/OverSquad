@@ -9,7 +9,7 @@ use App\Ws\Connection;
  * Handle connections of user in rooms
  * @package App\Models
  */
-class Room
+class Room implements \JsonSerializable
 {
     private $assoc;
     private $id;
@@ -19,8 +19,7 @@ class Room
     public function __construct()
     {
         foreach (Roles::$ROLES as $role => $roleName) {
-            $name = $roleName;
-            $this->{ $name } = [];
+            $this->{ $roleName } = [];
             $this->assoc[$role] = $roleName;
         }
 
@@ -71,8 +70,12 @@ class Room
      */
     public function removeUser(Connection $connection)
     {
-        $playersInRoles = $this->{ $this->assoc[$connection->getRole()] };
-        unset($playersInRoles[array_search($connection, $playersInRoles)]);
+        $this->{ $this->assoc[$connection->getRole()] } = array_filter(
+            $this->{ $this->assoc[$connection->getRole()] },
+            function ($elt) use ($connection) {
+                return $elt->getId() !== $connection->getId();
+            }
+        );
     }
 
     /**
@@ -104,5 +107,19 @@ class Room
     public function getId()
     {
         return $this->id;
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->getCurrentPlayers();
+    }
+
+    public function getCurrentPlayers()
+    {
+        $result = [];
+        foreach (Roles::$ROLES as $role => $roleName) {
+            $result = array_merge($this->{$roleName}, $result);
+        }
+        return $result;
     }
 }

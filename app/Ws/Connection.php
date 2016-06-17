@@ -4,7 +4,7 @@ namespace App\Ws;
 
 use App\User;
 
-class Connection
+class Connection implements \JsonSerializable
 {
     protected $connection;
     protected $user;
@@ -60,5 +60,13 @@ class Connection
     public function setRole($role)
     {
         $this->role = $role;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            "user" => $this->user,
+            "role" => $this->role,
+        ];
     }
 }

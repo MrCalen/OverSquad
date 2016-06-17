@@ -5,6 +5,7 @@ namespace App\Ws;
 use App\Models\PlayersManager;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
+use JWTAuth;
 
 /**
  * The Server handling WebSocket Connection
@@ -40,7 +41,10 @@ class WebSocketServer implements MessageComponentInterface
      */
     public function onClose(ConnectionInterface $conn)
     {
+        $connection = $this->connections[$conn->resourceId];
+        $room = $this->playerManager->userLeave($connection);
         unset($this->connections[$conn->resourceId]);
+        $this->notifyRoomChanged($room);
     }
 
     /**
@@ -72,10 +76,29 @@ class WebSocketServer implements MessageComponentInterface
             $token = $json_msg->token;
             $roles = $json_msg->roles;
             // FIXME: Get user from token;
-            $user = null;
-            $this->connections[$from->resourceId]->setUser($user);
-            $this->playerManager->userConnected($user, $roles);
+            JWTAuth::setToken($token);
+            $user = JWTAuth::toUser();
+            if (!$user) {
+                return;
+            }
+            $connection = $this->connections[$from->resourceId];
+            $connection->setUser($user);
+            $room = $this->playerManager->userConnected($connection, $roles);
+            $this->notifyRoomChanged($room);
+        }
+    }
+
+    private function notifyRoomChanged($room)
+    {
+        if (!$room) {
+            return;
         }
 
+        foreach ($room->getCurrentPlayers() as $player) {
+            $player->getConnection()->send(json_encode([
+                'players' => $room,
+                'status' => $room->checkFull(),
+            ]));
+        }
     }
 }

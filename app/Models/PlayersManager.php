@@ -16,6 +16,7 @@ class PlayersManager
     /**
      * Handle user connection
      *
+     * @return Room: The Room joined
      * @param Connection $connection : The connection
      * @param $roles : The roles wanted by the connection
      */
@@ -37,6 +38,7 @@ class PlayersManager
         }
 
         $connection->setRoom($newRoom);
+        return $newRoom;
     }
 
     /**
@@ -57,12 +59,24 @@ class PlayersManager
     /**
      * Handle User disconnection
      * @param Connection $connection : The User
+     * @return Room : The 'before' room of the user
      */
     public function userLeave(Connection $connection)
     {
         if (!$connection->getRoom()) {
-            return;
+            return null;
         }
         $connection->getRoom()->removeUser($connection);
+        $room = $connection->getRoom();
+        $connection->setRoom(null);
+        return $room;
+    }
+
+    /**
+     * @return array : The list of created rooms
+     */
+    public function getRooms()
+    {
+        return $this->rooms;
     }
 }
