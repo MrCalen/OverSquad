@@ -2,9 +2,17 @@
 <head>
     <title>OverSquad</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+
+    @yield('css')
 </head>
 <body>
-@yield('body')
+<div class="col-md-3">
+    @yield('nav_content')
+</div>
+<div class="col-md-9">
+    @yield('body')
+</div>
+
 @yield('scripts')
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
