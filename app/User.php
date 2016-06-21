@@ -26,9 +26,12 @@ class User extends Authenticatable
         'created_at', 'updated_at',
     ];
 
-    public function getLevel() {
+    public function getLevel()
+    {
         $dom = new Dom;
-        $dom->loadFromUrl('https://playoverwatch.com/en-us/career/pc/eu/' . $this->getAttribute('tag'));
-        return $dom->find('.player-level')[0]->firstChild()->text;
+        $dom->loadFromUrl('https://playoverwatch.com/en-us/career/pc/eu/' . $this->gametag);
+        return $dom->find('.player-level')[0]
+                   ->firstChild()
+                   ->text;
     }
 }

@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('password');
 
             $table->string('gametag');
+            $table->integer('level');
+            $table->string('picture')->default('https://thekrehlife.files.wordpress.com/2015/12/image1.jpeg?w=620');
             $table->rememberToken();
             $table->timestamps();
         });

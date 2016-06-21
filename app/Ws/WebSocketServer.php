@@ -75,7 +75,6 @@ class WebSocketServer implements MessageComponentInterface
         if ($json_msg->type === 'auth') {
             $token = $json_msg->token;
             $roles = $json_msg->roles;
-            // FIXME: Get user from token;
             JWTAuth::setToken($token);
             $user = JWTAuth::toUser();
             if (!$user) {

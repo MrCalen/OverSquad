@@ -2,17 +2,18 @@
 <head>
     <title>OverSquad</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
     @yield('css')
 </head>
-<body>
-<div class="col-md-3">
-    @yield('nav_content')
+<body class="full-height">
+<div>
+    <div class="col-md-3 col-sm-4 no-pad">
+        @yield('nav_content')
+    </div>
+    <div class="col-md-9 col-sm-8 content">
+        @yield('body')
+    </div>
 </div>
-<div class="col-md-9">
-    @yield('body')
-</div>
-
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

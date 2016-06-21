@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Ws\Connection;
 use Auth;
+use Illuminate\Support\Facades\Redirect;
 use Session;
 
 class HomeController extends Controller
@@ -27,6 +28,15 @@ class HomeController extends Controller
 //        $playerManager->userConnected($leaver, [1]);
 
         return view('home/home');
+    }
+
+    public function home()
+    {
+        if (Auth::check()) {
+            return Redirect::to('/home');
+        } else {
+            return Redirect::to('/login');
+        }
     }
 
     private function randomPlayer($id)

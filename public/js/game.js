@@ -22,5 +22,4 @@ angular.module('OverSquad', []).controller('OverSquadController', function ($sco
         console.log($scope.players);
         $scope.$apply();
     };
-
 });

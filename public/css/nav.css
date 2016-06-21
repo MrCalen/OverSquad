@@ -42,3 +42,42 @@
         margin-right: 0;
     }
 }
+
+.no-pad {
+    padding: 0;
+    margin: 0;
+}
+
+.theme {
+    background: rgba(35, 34, 32, 0.99);
+
+}
+
+.full-height {
+    background: rgba(35, 34, 32, 0.99);
+    height: 100%;
+}
+
+.img-pad {
+    padding: 40px;
+}
+
+.username {
+    color: white;
+    font-size: 35px;
+}
+
+.white,
+.white:hover {
+    color: white;
+}
+
+.menu-item {
+    padding: 10px;
+    font-size: 20px;
+}
+
+.content {
+    background-color: white;
+    height: 100%;
+}
