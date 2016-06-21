@@ -11,7 +11,7 @@ angular.module('OverSquad', []).controller('OverSquadController', function ($sco
         }));
     };
 
-    $scope.ws = new WebSocket("ws://oversquad.mr-calen.eu/ws");
+    $scope.ws = new WebSocket(window.websocketUrl);
     $scope.ws.onopen = function () {
         $scope.auth([1, 2]);
     };

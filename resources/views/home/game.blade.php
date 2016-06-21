@@ -38,6 +38,7 @@
     @parent
     <script>
         var token = '{{ $token }}';
+        var websocketUrl = '{{ env('WS_URL') }}';
     </script>
     <script src="{{ URL::asset('js/game.js') }}"></script>
 @endsection
