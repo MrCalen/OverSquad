@@ -3,6 +3,8 @@
 namespace App\Ws;
 
 use App\Models\PlayersManager;
+use App\Models\Room;
+use App\User;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use JWTAuth;
@@ -68,36 +70,54 @@ class WebSocketServer implements MessageComponentInterface
     public function onMessage(ConnectionInterface $from, $msg)
     {
         $json_msg = json_decode($msg);
-        if (!$json_msg) {
+        if (!$json_msg || !isset($json_msg->token)) {
             return;
         }
-
+        $token = $json_msg->token;
+        JWTAuth::setToken($token);
+        $user = JWTAuth::toUser();
+        if (!$user) {
+            return;
+        }
+        $connection = $this->connections[$from->resourceId];
         if ($json_msg->type === 'auth') {
-            $token = $json_msg->token;
             $roles = $json_msg->roles;
-            JWTAuth::setToken($token);
-            $user = JWTAuth::toUser();
-            if (!$user) {
-                return;
-            }
-            $connection = $this->connections[$from->resourceId];
             $connection->setUser($user);
             $room = $this->playerManager->userConnected($connection, $roles);
             $this->notifyRoomChanged($room);
+        } elseif ($json_msg->type === 'message') {
+            $message = $json_msg->content;
+            $room = $connection->getRoom();
+            $this->notifyRoomMessage($room, $user, $message);
         }
     }
 
-    private function notifyRoomChanged($room)
+    private function notifyRoomChanged(Room $room)
+    {
+        $this->notifyRoom($room, [
+            'type' => 'users',
+            'players' => $room,
+            'status' => $room->checkFull(),
+        ]);
+    }
+
+    private function notifyRoomMessage(Room $room, User $user, $message)
+    {
+        $this->notifyRoom($room, [
+            'type' => 'message',
+            'content' => $message,
+            'author' => $user->id,
+        ]);
+    }
+
+    private function notifyRoom(Room $room, $message)
     {
         if (!$room) {
             return;
         }
 
         foreach ($room->getCurrentPlayers() as $player) {
-            $player->getConnection()->send(json_encode([
-                'players' => $room,
-                'status' => $room->checkFull(),
-            ]));
+            $player->getConnection()->send(json_encode($message));
         }
     }
 }

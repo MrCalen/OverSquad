@@ -1,6 +1,7 @@
 angular.module('OverSquad', []).controller('OverSquadController', function ($scope) {
     $scope.players = [];
     $scope.roomStatus = false;
+    $scope.messages = [];
 
     $scope.auth = function (roles) {
         $scope.ws.send(JSON.stringify({
@@ -17,9 +18,22 @@ angular.module('OverSquad', []).controller('OverSquadController', function ($sco
 
     $scope.ws.onmessage = function (message) {
         message = JSON.parse(message.data);
-        $scope.players = message.players;
-        $scope.roomStatus = message.status;
-        console.log($scope.players);
-        $scope.$apply();
+        if (message.type === 'users') {
+            $scope.players = message.players;
+            $scope.roomStatus = message.status;
+            $scope.$apply();
+        } else if (message.type === 'message') {
+            console.log(message);
+            $scope.messages.push(message.content);
+            $scope.$apply();
+        }
     };
+
+    $scope.newMessage = function (message) {
+        $scope.ws.send(JSON.stringify({
+            type: 'message',
+            content: message,
+            token: window.token
+        }));
+    }
 });

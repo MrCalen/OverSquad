@@ -8,15 +8,22 @@
     @parent
     <div ng-app="OverSquad" ng-controller="OverSquadController">
         <div class="row theme">
-            <img src="http://samherbert.net/svg-loaders/svg-loaders/rings.svg">
-            <i class="white">Searching for <b ng-bind="6 - players.length"></b> other friends</i>
+            <div ng-if="!roomStatus">
+                <img src="http://samherbert.net/svg-loaders/svg-loaders/rings.svg">
+                <i class="white">Searching for <b ng-bind="6 - players.length"></b> other friends</i>
+            </div>
         </div>
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-xs-7">
+                <ul>
+                    <li ng-repeat="message in messages track by $index" ng-bind="message"></li>
+                </ul>
+                <form id="msg" ng-submit="newMessage(currentMessage); currentMessage = ''">
+                    <input type="text" ng-model="currentMessage">
+                </form>
             </div>
-            <div class="col-md-5">
+            <div class="col-xs-5">
                 <div>
-                    <p></p>
                     <h4>Currently in game</h4>
                     <ul>
                         <li ng-repeat="player in players" ng-bind="player.user.name"></li>
