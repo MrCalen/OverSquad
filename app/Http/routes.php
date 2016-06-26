@@ -9,9 +9,7 @@ Route::post('/register', 'Auth\AuthController@postRegister');
 
 Route::get('/', 'HomeController@home');
 
-Route::group(['middleware' => 'api', 'prefix' => 'api'], function () {
-    Route::get('/profile', 'ProfileController@apiProfile');
-});
+Route::get('/user/{id}', 'UserController@showProfile')->name('profile');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index');
