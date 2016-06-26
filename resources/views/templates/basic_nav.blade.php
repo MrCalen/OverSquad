@@ -24,7 +24,7 @@
             </li>
             <li class="divider"><hr/></li>
             <li>
-                <a href="{{ URL::route('profile', ['id' => Auth::user()->id ]) }}" class="menu-item white"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Profile</a>
+                <a href="{{ URL::route('showProfile', ['id' => Auth::user()->id ]) }}" class="menu-item white"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Profile</a>
             </li>
             <li class="divider"><hr/></li>
             <li>
