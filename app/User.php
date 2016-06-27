@@ -29,7 +29,7 @@ class User extends Authenticatable
     public function getLevel()
     {
         $dom = new Dom;
-        $dom->loadFromUrl('https://playoverwatch.com/en-us/career/pc/eu/' . $this->gametag);
+        $dom->loadFromUrl('https://playoverwatch.com/en-us/career/pc/eu/' . $this->tag);
         return $dom->find('.player-level')[0]
                    ->firstChild()
                    ->text;

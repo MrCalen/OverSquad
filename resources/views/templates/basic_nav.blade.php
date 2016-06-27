@@ -16,7 +16,7 @@
                 <h2>{{ Auth::user()->name }}</h2>
             </li>
             <li class="text-center white">
-                <h4>"{{ Auth::user()->gametag }}"</h4>
+                <h4>"{{ Auth::user()->tag }}"</h4>
             </li>
 
             <li class="text-center white">
