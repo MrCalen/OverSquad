@@ -9,6 +9,10 @@ Route::post('/register', 'Auth\AuthController@postRegister');
 
 Route::get('/', 'HomeController@home');
 
+Route::group(['middleware' => 'api', 'prefix' => 'api'], function () {
+    Route::get('/profile', 'ProfileController@apiProfile');
+});
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index');
     Route::get('/game', 'GameController@index');
