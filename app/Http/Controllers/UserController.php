@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -31,11 +32,13 @@ class UserController extends Controller
     /**
      * Edit the profile of the given user.
      *
+     * @param  Request $request
      * @param  int  $id
      * @return Response
      */
-    public function editProfilePost($id)
+    public function editProfilePost(Request $request, $id)
     {
+        User::findOrFail($id)->update($request->all());
         return redirect()->route('showProfile', ['id' => $id]);
     }
 }
