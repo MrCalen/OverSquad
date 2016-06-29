@@ -2,11 +2,16 @@
 
 @section('css')
     @parent
+    <style>
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }
+    </style>
 @endsection
 
 @section('body')
     @parent
-    <div ng-app="OverSquad" ng-controller="OverSquadController">
+    <div ng-app="OverSquad" ng-controller="OverSquadController" ng-cloak>
         <div class="row theme">
             <div ng-if="!roomStatus">
                 <img src="http://samherbert.net/svg-loaders/svg-loaders/rings.svg">
@@ -39,7 +44,9 @@
                 <div>
                     <h4>Currently in game</h4>
                     <ul>
-                        <li ng-repeat="player in players" ng-bind="player.user.name"></li>
+                        <li ng-repeat="player in players">
+                            <i class="user-hover" id="@{{ player.user.id }}">@{{ player.user.name }}</i>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -49,6 +56,7 @@
 
 @section('scripts')
     @parent
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap.min.js"></script>
     <script>
         var token = '{{ $token }}';
         var websocketUrl = '{{ env('WS_URL') }}';
