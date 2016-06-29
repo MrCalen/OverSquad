@@ -81,3 +81,7 @@
     background-color: white;
     height: 100%;
 }
+
+ul {
+    list-style-type: none;
+}

@@ -23,8 +23,7 @@ angular.module('OverSquad', []).controller('OverSquadController', function ($sco
             $scope.roomStatus = message.status;
             $scope.$apply();
         } else if (message.type === 'message') {
-            console.log(message);
-            $scope.messages.push(message.content);
+            $scope.messages.push(message);
             $scope.$apply();
         }
     };

@@ -11,17 +11,17 @@ abstract class Roles
     /**
      * Constants
      */
-    const ATTACK = 1; // 3
-    const TANK = 2; // 1
-    const SUPPORT = 3; // 1
-    const DEFENSE = 4; // 1
+    const ATTACK  = 1;  // 3
+    const TANK    = 2;  // 1
+    const SUPPORT = 3;  // 1
+    const DEFENSE = 4;  // 1
 
     /**
      * Creates an associative array for each role
      */
     public static $ROLES = [
-        Roles::ATTACK => 'attack',
-        Roles::TANK => 'tank',
+        Roles::ATTACK  => 'attack',
+        Roles::TANK    => 'tank',
         Roles::SUPPORT => 'support',
         Roles::DEFENSE => 'defense',
     ];

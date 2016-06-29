@@ -107,6 +107,7 @@ class WebSocketServer implements MessageComponentInterface
             'type' => 'message',
             'content' => $message,
             'author' => $user->id,
+            'author_name' => $user->name,
         ]);
     }
 
