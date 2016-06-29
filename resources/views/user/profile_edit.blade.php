@@ -26,13 +26,13 @@
             </div>
         </div>
 
-        <div class="form-group{{ $errors->has('tag') ? ' has-error' : '' }}">
-            <label class="col-sm-3 control-label">Tag</label>
+        <div class="form-group{{ $errors->has('gametag') ? ' has-error' : '' }}">
+            <label class="col-sm-3 control-label">GameTag</label>
             <div class="col-sm-9">
-                <input type="text" class="form-control" name="tag" id="tag" placeholder="Tag" value="{{ $user['tag'] }}" />
-                @if ($errors->has('tag'))
+                <input type="text" class="form-control" name="gametag" id="gametag" placeholder="GameTag" value="{{ $user['gametag'] }}" />
+                @if ($errors->has('gametag'))
                     <span class="help-block">
-                        <strong>{{ $errors->first('tag') }}</strong>
+                        <strong>{{ $errors->first('gametag') }}</strong>
                     </span>
                 @endif
             </div>

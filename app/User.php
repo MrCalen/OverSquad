@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use PHPHtmlParser\Dom;
+use Log;
 
 class User extends Authenticatable
 {
@@ -13,7 +14,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'tag',
+        'name', 'email', 'password', 'gametag',
     ];
 
     /**
@@ -29,7 +30,10 @@ class User extends Authenticatable
     public function getLevel()
     {
         $dom = new Dom;
-        $dom->loadFromUrl('https://playoverwatch.com/en-us/career/pc/eu/' . $this->tag);
+        $gametagModified = str_replace("#", "-", $this->gametag);
+        Log::info($gametagModified);
+        $dom->loadFromUrl('https://playoverwatch.com/en-us/career/pc/eu/' . $gametagModified);
+        Log::info($dom->find('.player-level')[0]->firstChild()->text);
         return $dom->find('.player-level')[0]
                    ->firstChild()
                    ->text;

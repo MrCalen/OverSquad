@@ -17,7 +17,7 @@
     </dl>
     <dl class="dl-horizontal">
         <dt>Tag</dt>
-        <dd><?php echo $user['tag'] ?></dd>
+        <dd><?php echo $user['gametag'] ?></dd>
     </dl>
     <dl class="dl-horizontal">
         <dt>Level</dt>
