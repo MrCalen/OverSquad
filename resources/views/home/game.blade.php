@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="container-fluid row"
-             style="border: 3px solid rgba(35, 34, 32, 0.99); margin: 10px; border-radius: 5px; height: 90%">
+             style="border: 3px solid rgba(35, 34, 32, 0.99); margin: 10px; border-radius: 5px; height: 90%; background-color: rgba(200, 200, 200, 0.90)">
             <div class="col-xs-8">
                 <ul>
                     <li ng-repeat="message in messages track by $index">
@@ -40,7 +40,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-xs-4" style="border-left: 1px solid black; height: 100%">
+            <div class="col-xs-4" style="border-left: 1px solid black; height: 100%;">
                 <div>
                     <h4>Currently in game</h4>
                     <ul>

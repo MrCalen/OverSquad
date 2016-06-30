@@ -1,3 +1,7 @@
+@font-face  {  font-family: "Overwatch";
+              src: url("http://us.battle.net/forums/static/fonts/bignoodletoo/bignoodletoo.woff") format('woff');
+            }
+
 @media (min-width: 768px) {
     .navbar-collapse {
         height: auto;
@@ -49,13 +53,14 @@
 }
 
 .theme {
-    background: rgba(35, 34, 32, 0.99);
+    background: #1F3D44;
 
 }
 
 .full-height {
-    background: rgba(35, 34, 32, 0.99);
+    background: #1F3D44;
     height: 100%;
+    width: 100%;
 }
 
 .img-pad {
@@ -73,8 +78,10 @@
 }
 
 .menu-item {
+    font-family: Overwatch;
+    font-size: 26px;
+    letter-spacing: 1px;
     padding: 10px;
-    font-size: 20px;
 }
 
 .content {
@@ -84,4 +91,15 @@
 
 ul {
     list-style-type: none;
+}
+
+hr{
+	margin-top: 20px;
+  margin-bottom: 20px;
+	border: 0;
+	height: 2px;
+	background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),white,rgba(0, 0, 0, 0));
+	background-image: -moz-linear-gradient(left,rgba(0,0,0,0),white,rgba(0,0,0,0));
+	background-image: -ms-linear-gradient(left,rgba(0,0,0,0),white,rgba(0,0,0,0));
+	background-image: -o-linear-gradient(left,rgba(0,0,0,0),white,rgba(0,0,0,0));
 }
