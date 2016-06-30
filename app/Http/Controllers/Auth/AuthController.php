@@ -52,6 +52,7 @@ class AuthController extends Controller
             'name-register' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password-register' => 'required|min:6|confirmed',
+            'gametag' => array('Regex:/([A-Za-z]*)#([0-9]{4})/'),
         ]);
     }
 
@@ -65,8 +66,10 @@ class AuthController extends Controller
     {
         return User::create([
             'name' => $data['name-register'],
-            'email' => $data['email-register'],
+            'email' => $data['email'],
             'password' => bcrypt($data['password-register']),
+            'gametag' => $data['gametag'],
+            'level' => User::getLevelFromGametag($data['gametag']),
         ]);
     }
 }

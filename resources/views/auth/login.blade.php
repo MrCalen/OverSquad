@@ -6,9 +6,6 @@
 @endsection
 
 @section('body')
-  @if ($errors->any())
-    {{ var_dump($errors->all()) }}
-  @endif
 <div class="container">
     <div class="overwatch-title">OverSquad</div>
     <div class="row">
@@ -60,11 +57,20 @@
 								<form id="register-form" action="{{ url('/register') }}" method="POST" role="form" style="display: none;">
                   {{ csrf_field() }}
 
-									<div class="form-group{{ $errors->has('name-register') ? ' has-error' : '' }}">
+                  <div class="form-group{{ $errors->has('name-register') ? ' has-error' : '' }}">
 										<input type="text" name="name-register" required id="name" tabindex="1" class="form-control" placeholder="Username" value="{{ old('name') }}">
                     @if ($errors->has('name-register'))
                         <span class="help-block">
                             <strong>{{ $errors->first('name-register') }}</strong>
+                        </span>
+                    @endif
+									</div>
+
+                  <div class="form-group{{ $errors->has('gametag') ? ' has-error' : '' }}">
+										<input type="text" name="gametag" required id="gametag" tabindex="1" class="form-control" placeholder="Battletag" value="{{ old('gametag') }}" pattern="([A-Za-z]*)#([0-9]{4})" title="For example: UserName#1234">
+                    @if ($errors->has('gametag'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('gametag') }}</strong>
                         </span>
                     @endif
 									</div>

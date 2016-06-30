@@ -14,7 +14,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'gametag',
+        'name', 'email', 'password', 'gametag', 'level',
     ];
 
     /**
@@ -29,13 +29,15 @@ class User extends Authenticatable
 
     public function getLevel()
     {
-        $dom = new Dom;
-        $gametagModified = str_replace("#", "-", $this->gametag);
-        Log::info($gametagModified);
-        $dom->loadFromUrl('https://playoverwatch.com/en-us/career/pc/eu/' . $gametagModified);
-        Log::info($dom->find('.player-level')[0]->firstChild()->text);
-        return $dom->find('.player-level')[0]
-                   ->firstChild()
-                   ->text;
+        return self::getLevelFromGametag($this->gametag);
+    }
+
+    public static function getLevelFromGametag($gametag) {
+      $dom = new Dom;
+      $gametagModified = str_replace("#", "-", $gametag);
+      $dom->loadFromUrl('https://playoverwatch.com/en-us/career/pc/eu/' . $gametagModified);
+      return $dom->find('.player-level')[0]
+                 ->firstChild()
+                 ->text;
     }
 }
