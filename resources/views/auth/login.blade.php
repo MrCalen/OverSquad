@@ -1,66 +1,133 @@
-@extends('layouts.app')
+@extends('templates/basic_login_layout')
 
-@section('content')
+@section('css')
+    @parent
+    <link rel="stylesheet" href="{{ URL::asset('css/login.css') }}"/>
+@endsection
+
+@section('body')
+  @if ($errors->any())
+    {{ var_dump($errors->all()) }}
+  @endif
 <div class="container">
+    <div class="overwatch-title">OverSquad</div>
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Login</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
-                        {{ csrf_field() }}
+        <div class="col-md-6" style="margin-top : 60px;">
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+          <div class="panel panel-login">
+            <div class="panel-heading">
+  						<div class="row">
+  							<div class="col-xs-6">
+  								<a href="#" class="active" id="login-form-link">Login</a>
+  							</div>
+  							<div class="col-xs-6">
+  								<a href="#" id="register-form-link">Register</a>
+  							</div>
+  						</div>
+              <hr>
+					  </div>
+            <div class="panel-body">
+						<div class="row">
+							<div class="col-lg-12">
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">
+								<form id="login-form" action="{{ url('/login') }}" method="POST" role="form" style="display: block;">
+                  {{ csrf_field() }}
+                  <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                        <input id="email" type="email" required class="form-control" name="email" placeholder="Email" value="{{ old('email') }}" tabindex="1">
+                        @if ($errors->has('email'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('email') }}</strong>
+                            </span>
+                        @endif
+									</div>
+									<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                    <input type="password" name="password" required id="password" tabindex="2" class="form-control" placeholder="Password">
+                    @if ($errors->has('password'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('password') }}</strong>
+                        </span>
+                    @endif
+									</div>
 
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+									<div class="form-group">
+											<div class="col-sm-6 col-sm-offset-3">
+												<input type="submit" name="login-submit" required id="login-submit" tabindex="3" class="form-control btn btn-login" value="Log In">
+											</div>
+									</div>
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+								</form>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password">
+								<form id="register-form" action="{{ url('/register') }}" method="POST" role="form" style="display: none;">
+                  {{ csrf_field() }}
 
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+									<div class="form-group{{ $errors->has('name-register') ? ' has-error' : '' }}">
+										<input type="text" name="name-register" required id="name" tabindex="1" class="form-control" placeholder="Username" value="{{ old('name') }}">
+                    @if ($errors->has('name-register'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('name-register') }}</strong>
+                        </span>
+                    @endif
+									</div>
 
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember"> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+									<div class="form-group">
+										<input type="email" name="email" required id="email" tabindex="1" class="form-control" placeholder="Email Address" value="{{ old('email') }}">
+                  </div>
 
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-sign-in"></i> Login
-                                </button>
+									<div class="form-group{{ $errors->has('password-register') ? ' has-error' : '' }}">
+										<input type="password" name="password-register" required id="password" tabindex="2" class="form-control" placeholder="Password">
+                    @if ($errors->has('password-register'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('password-register') }}</strong>
+                        </span>
+                    @endif
+                  </div>
 
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+									<div class="form-group{{ $errors->has('password-register_confirmation') ? ' has-error' : '' }}">
+										<input type="password" name="password-register_confirmation" required id="password-register_confirmation" tabindex="2" class="form-control" placeholder="Confirm Password">
+                    @if ($errors->has('password-register_confirmation'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('password-register_confirmation') }}</strong>
+                        </span>
+                    @endif
+                  </div>
+
+									<div class="form-group">
+											<div class="col-sm-6 col-sm-offset-3">
+												<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-signup" value="Register Now">
+											</div>
+									</div>
+								</form>
+
+							</div>
+						</div>
+					</div>
+          </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+  @parent
+  <script>
+    $(function() {
+
+      $('#login-form-link').click(function(e) {
+  		$("#login-form").delay(100).fadeIn(100);
+   		$("#register-form").fadeOut(100);
+  		$('#register-form-link').removeClass('active');
+  		$(this).addClass('active');
+  		e.preventDefault();
+  	});
+
+    	$('#register-form-link').click(function(e) {
+    		$("#register-form").delay(100).fadeIn(100);
+     		$("#login-form").fadeOut(100);
+    		$('#login-form-link').removeClass('active');
+    		$(this).addClass('active');
+    		e.preventDefault();
+    	});
+
+    });
+  </script>
 @endsection
