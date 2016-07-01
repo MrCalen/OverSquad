@@ -1,6 +1,7 @@
-@font-face  {  font-family: "Overwatch";
-              src: url("http://us.battle.net/forums/static/fonts/bignoodletoo/bignoodletoo.woff") format('woff');
-            }
+@font-face {
+    font-family: "Overwatch";
+    src: url("http://us.battle.net/forums/static/fonts/bignoodletoo/bignoodletoo.woff") format('woff');
+}
 
 @media (min-width: 768px) {
     .navbar-collapse {
@@ -93,13 +94,18 @@ ul {
     list-style-type: none;
 }
 
-hr{
-	margin-top: 20px;
-  margin-bottom: 20px;
-	border: 0;
-	height: 2px;
-	background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),white,rgba(0, 0, 0, 0));
-	background-image: -moz-linear-gradient(left,rgba(0,0,0,0),white,rgba(0,0,0,0));
-	background-image: -ms-linear-gradient(left,rgba(0,0,0,0),white,rgba(0,0,0,0));
-	background-image: -o-linear-gradient(left,rgba(0,0,0,0),white,rgba(0,0,0,0));
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    height: 2px;
+    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), white, rgba(0, 0, 0, 0));
+    background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0), white, rgba(0, 0, 0, 0));
+    background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), white, rgba(0, 0, 0, 0));
+    background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), white, rgba(0, 0, 0, 0));
+}
+
+h2,
+h4 {
+    font-family: serif;
 }
