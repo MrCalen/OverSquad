@@ -114,7 +114,8 @@
                         <span class="overwatch-title futura">Defense</span>
                     </div>
                 </li>
-
+            </ul>
+            <ul class="role-choices">
                 <li ng-show="roles.length === 3" class="role-choice li-oversquad validate-button" ng-click="start()">
                     <div class="futura padded">Valider</div>
                 </li>
@@ -131,9 +132,7 @@
                 <div class="col-xs-8">
                     <ul class="chat-list">
                         <li ng-repeat="message in messages track by $index">
-                            <a href="@{{ message.author }}">
-                                @{{ message.author_name }}
-                            </a>
+                            <i>@{{ message.author_name }}</i>
                             @{{ message.content }}
                         </li>
                     </ul>
