@@ -41,6 +41,8 @@ angular.module('OverSquad', [])
     };
 
     $scope.newMessage = function (message) {
+        if (message.length === 0)
+            return;
         $scope.ws.send(JSON.stringify({
             type: 'message',
             content: message,
@@ -91,4 +93,9 @@ angular.module('OverSquad', [])
             setTimeout(register, 500);
         });
     });
+});
+
+
+$(window).bind('beforeunload', function() {
+    return 'Are you sure you want to leave the room?';
 });

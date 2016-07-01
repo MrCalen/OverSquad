@@ -32,10 +32,10 @@
                 <form id="msg" ng-submit="newMessage(currentMessage); currentMessage = ''">
                     <div class="container-fluid">
                         <div class="col-xs-10">
-                            <input class="form-control" type="text" ng-model="currentMessage">
+                            <input class="form-control input-chat" type="text" ng-model="currentMessage">
                         </div>
                         <div class="col-xs-2">
-                            <button class="btn btn-primary">Envoyer</button>
+                            <button class="btn btn-primary btn-oversquad">Envoyer</button>
                         </div>
                     </div>
                 </form>

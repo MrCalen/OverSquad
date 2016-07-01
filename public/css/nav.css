@@ -113,3 +113,18 @@ h2,
 h4 {
     font-family: serif;
 }
+
+input:hover.form-control,
+input:focus.form-control {
+    outline:none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-color: #FA961E;
+}
+
+.btn-oversquad:hover,
+.btn-oversquad {
+    background: #1F3D44;
+    border-color: #1F3D44;
+}
