@@ -152,9 +152,9 @@
                 <div class="col-xs-4 user-list">
                     <div>
                         <h4>Currently in game</h4>
-                        <ul>
-                            <li ng-repeat="player in players">
-                                <i class="user-hover" id="@{{ player.user.id }}">@{{ player.user.name }}</i>
+                        <ul class="list-group">
+                            <li class="user-hover list-group-item list-group-item-warning" ng-repeat="player in players" id="@{{ player.user.id }}">
+                                <i>@{{ player.user.name }}</i>
                             </li>
                         </ul>
                     </div>
