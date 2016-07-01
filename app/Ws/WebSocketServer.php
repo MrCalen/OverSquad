@@ -43,10 +43,13 @@ class WebSocketServer implements MessageComponentInterface
      */
     public function onClose(ConnectionInterface $conn)
     {
-        $connection = $this->connections[$conn->resourceId];
-        $room = $this->playerManager->userLeave($connection);
-        unset($this->connections[$conn->resourceId]);
-        $this->notifyRoomChanged($room);
+        try {
+            $connection = $this->connections[$conn->resourceId];
+            $room = $this->playerManager->userLeave($connection);
+            unset($this->connections[$conn->resourceId]);
+            $this->notifyRoomChanged($room);
+        } catch (\Throwable $e) {
+        }
     }
 
     /**
@@ -81,8 +84,12 @@ class WebSocketServer implements MessageComponentInterface
         }
         $connection = $this->connections[$from->resourceId];
         if ($json_msg->type === 'auth') {
-            $roles = $json_msg->roles;
             $connection->setUser($user);
+            if ($user->admin && isset($json_msg->admin) && $json_msg->admin) {
+                $this->getRooms($connection);
+                return;
+            }
+            $roles = $json_msg->roles;
             $room = $this->playerManager->userConnected($connection, $roles);
             $this->notifyRoomChanged($room);
         } elseif ($json_msg->type === 'message') {
@@ -90,6 +97,12 @@ class WebSocketServer implements MessageComponentInterface
             $room = $connection->getRoom();
             $this->notifyRoomMessage($room, $user, $message);
         }
+    }
+
+    private function getRooms(Connection $connection)
+    {
+        $rooms = $this->playerManager->getRooms();
+        $connection->getConnection()->send(json_encode($rooms));
     }
 
     private function notifyRoomChanged(Room $room)

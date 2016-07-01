@@ -37,16 +37,26 @@
             <li class="divider">
                 <hr/>
             </li>
+            @if (Auth::user()->admin)
             <li>
-                <a href="{{ URL::to('/game') }}" class="menu-item white"><i class="fa fa-trophy fa-fw"
-                                                                            aria-hidden="true"></i>Search a Game</a>
+                <a href="{{ URL::route('admin') }}" class="menu-item white">
+                    <i class="fa fa-lock fa-fw" aria-hidden="true"></i>Admin
+                </a>
+            </li>
+            <li class="divider">
+                <hr/>
+            </li>
+            @endif
+            <li>
+                <a href="{{ URL::to('/game') }}" class="menu-item white">
+                    <i class="fa fa-trophy fa-fw" aria-hidden="true"></i>Search a Game</a>
             </li>
             <li class="divider">
                 <hr/>
             </li>
             <li>
-                <a href="{{ URL::to('/logout') }}" class="white menu-item"><i class="fa fa-sign-out fa-fw"
-                                                                              aria-hidden="true"></i>Log out</a>
+                <a href="{{ URL::to('/logout') }}" class="white menu-item">
+                    <i class="fa fa-sign-out fa-fw" aria-hidden="true"></i>Log out</a>
             </li>
             <li class="divider">
                 <hr/>

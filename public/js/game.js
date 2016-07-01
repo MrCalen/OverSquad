@@ -9,7 +9,8 @@ String.format = function() {
     return theString;
 };
 
-angular.module('OverSquad', []).controller('OverSquadController', function ($scope, $http, $timeout) {
+angular.module('OverSquad', [])
+    .controller('OverSquadController', function ($scope, $http, $timeout) {
     $scope.players = [];
     $scope.roomStatus = false;
     $scope.messages = [];

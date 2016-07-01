@@ -15,4 +15,9 @@ Route::post('/user/{id}/edit', 'UserController@editProfilePost')->name('editProf
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', 'HomeController@index');
     Route::get('/game', 'GameController@index');
+
+    Route::group(['middleware' => 'admin'], function () {
+        Route::get('/admin', 'AdminController@index')->name('admin');
+    });
+
 });

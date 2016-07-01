@@ -3,6 +3,10 @@
     src: url("http://us.battle.net/forums/static/fonts/bignoodletoo/bignoodletoo.woff") format('woff');
 }
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
 @media (min-width: 768px) {
     .navbar-collapse {
         height: auto;

@@ -68,6 +68,9 @@ class PlayersManager
         }
         $connection->getRoom()->removeUser($connection);
         $room = $connection->getRoom();
+        if (!count($connection->getRoom()->getCurrentPlayers())) {
+            unset($this->rooms[$room->getId()]);
+        }
         $connection->setRoom(null);
         return $room;
     }

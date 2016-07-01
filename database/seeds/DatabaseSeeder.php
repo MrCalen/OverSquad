@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $user = new User();
         $user->name = "Admin";
         $user->email = "dagues_p@yaka.epita.fr";
+        $user->admin = 1;
         $user->password = \Illuminate\Support\Facades\Hash::make(env('DB_PWD', 'password'));
         $user->gametag = env("DB_TAG");
 
