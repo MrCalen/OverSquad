@@ -16,6 +16,20 @@ $ composer install
 $ composer update
 ```
 
+How to test
+---
+
+Only tests:
+`
+$ make check
+`
+
+With coverage:
+`
+$ make coverage
+`
+
+
 Contributors
 --
 
