@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\Api;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\User;
-use Response;
 
 class ProfileController extends Controller
 {
