@@ -1,16 +1,14 @@
-@font-face  {  font-family: "Overwatch";
-              src: url("http://us.battle.net/forums/static/fonts/bignoodletoo/bignoodletoo.woff") format('woff');
-            }
+@font-face  {  font-family: "Overwatch"; src: url("http://us.battle.net/forums/static/fonts/bignoodletoo/bignoodletoo.woff") format('woff'); }
 
 .overwatch-title {
-  font-size: 80;
+  font-size: 80px;
   color: #1F3D44;
   font-family: Overwatch;
   text-decoration: none;
 }
 
 .overwatch-title::first-letter {
-  font-size: 90;
+  font-size: 90px;
   color: #FA961E;
   font-family: Overwatch;
   text-decoration: none;
@@ -108,4 +106,14 @@
 	color: #fff;
 	background-color: #1C373A;
 	border-color: #1C373A;
+}
+
+.futura {
+	font-size: 1em;
+	line-height: 1.6rem;
+	font-family: Futura;
+}
+
+.real-hr {
+	background: #1F3D44;
 }

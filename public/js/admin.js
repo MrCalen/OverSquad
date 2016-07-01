@@ -24,8 +24,8 @@ angular.module('OverSquad', [])
     $scope.roles = {
         1: 'attack',
         2: 'tank',
-        4: 'support',
-        5: 'defense'
+        3: 'support',
+        4: 'defense'
     };
 
     $scope.roleToString = function (role) {

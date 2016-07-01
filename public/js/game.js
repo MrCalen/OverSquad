@@ -10,44 +10,84 @@ String.format = function() {
 };
 
 angular.module('OverSquad', [])
-    .controller('OverSquadController', function ($scope, $http, $timeout) {
+.controller('OverSquadController', function ($scope, $http, $timeout) {
+    $scope.step = 0;
     $scope.players = [];
     $scope.roomStatus = false;
     $scope.messages = [];
+    $scope.roles = [];
 
-    $scope.auth = function (roles) {
-        $scope.ws.send(JSON.stringify({
-            type: 'auth',
-            token: window.token,
-            roles: roles
-        }));
-    };
-
-    $scope.ws = new WebSocket(window.websocketUrl);
-    $scope.ws.onopen = function () {
-        $scope.auth([1, 2]);
-    };
-
-    $scope.ws.onmessage = function (message) {
-        message = JSON.parse(message.data);
-        if (message.type === 'users') {
-            $scope.players = message.players;
-            $scope.roomStatus = message.status;
-            $scope.$apply();
-        } else if (message.type === 'message') {
-            $scope.messages.push(message);
-            $scope.$apply();
-        }
-    };
-
-    $scope.newMessage = function (message) {
-        if (message.length === 0)
+    $scope.addRole = function (value) {
+        if ($scope.roles.length >= 3) return;
+        if ($scope.roles.find(function (elt) { return elt.value === value; }))
             return;
-        $scope.ws.send(JSON.stringify({
-            type: 'message',
-            content: message,
-            token: window.token
-        }));
+
+        $scope.roles.push({
+            name: $scope.const_roles[value],
+            value: value
+        });
+    };
+
+    $scope.removeRole = function (index) {
+      $scope.roles.splice(index, 1);
+    };
+
+
+    $scope.const_roles = {
+        1: 'attack',
+        2: 'tank',
+        3: 'support',
+        4: 'defense'
+    };
+
+    $scope.start = function () {
+        $scope.playerRoles = [];
+        $scope.roles.forEach(function (elt) {
+            $scope.playerRoles.push(elt.value);
+        });
+
+        $scope.step = 1;
+
+        /* Popup before leaving room */
+        $(window).bind('beforeunload', function () {
+            return 'Are you sure you want to leave the room?';
+        });
+
+        /* Handle WebSocket connection */
+        $scope.auth = function (roles) {
+            $scope.ws.send(JSON.stringify({
+                type: 'auth',
+                token: window.token,
+                roles: roles
+            }));
+        };
+
+        $scope.ws = new WebSocket(window.websocketUrl);
+        $scope.ws.onopen = function () {
+            $scope.auth($scope.playerRoles);
+        };
+
+        $scope.ws.onmessage = function (message) {
+            message = JSON.parse(message.data);
+            if (message.type === 'users') {
+                $scope.players = message.players;
+                $scope.roomStatus = message.status;
+                $scope.$apply();
+            } else if (message.type === 'message') {
+                $scope.messages.push(message);
+                $scope.$apply();
+            }
+        };
+
+        $scope.newMessage = function (message) {
+            if (message.length === 0)
+                return;
+            $scope.ws.send(JSON.stringify({
+                type: 'message',
+                content: message,
+                token: window.token
+            }));
+        };
     };
 
     $(document).ready(function () {
@@ -77,7 +117,6 @@ angular.module('OverSquad', [])
                 }
 
                 var content = String.format(template, player.user.picture, player.user.name);
-                console.log(content);
                 $($this).popover({
                     placement: 'left',
                     content: content,
@@ -93,9 +132,31 @@ angular.module('OverSquad', [])
             setTimeout(register, 500);
         });
     });
-});
+}).directive('choiceList', function() {
 
+    return function(scope, element, attrs) {
 
-$(window).bind('beforeunload', function() {
-    return 'Are you sure you want to leave the room?';
+        var toUpdate;
+        var startIndex = -1;
+
+        scope.$watch(attrs.choiceList, function(value) {
+            toUpdate = angular.copy(value);
+        }, true);
+
+        $(element[0]).sortable({
+            items:'li',
+            start:function (event, ui) {
+                startIndex = ($(ui.item).index());
+            },
+            stop:function (event, ui) {
+                var newIndex = ($(ui.item).index());
+                var toMove = toUpdate[startIndex];
+                toUpdate.splice(startIndex,1);
+                toUpdate.splice(newIndex,0,toMove);
+
+                scope.$apply(scope.model);
+            },
+            axis:'y'
+        })
+    }
 });

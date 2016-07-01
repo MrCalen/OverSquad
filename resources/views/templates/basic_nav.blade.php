@@ -58,9 +58,6 @@
                 <a href="{{ URL::to('/logout') }}" class="white menu-item">
                     <i class="fa fa-sign-out fa-fw" aria-hidden="true"></i>Log out</a>
             </li>
-            <li class="divider">
-                <hr/>
-            </li>
         </ul>
     </div>
 @endsection

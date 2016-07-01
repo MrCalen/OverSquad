@@ -1,0 +1,76 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+.role-selection {
+    font-size: 25px;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.role-choices {
+    font-size: 25px;
+}
+
+.role-choice {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.icon {
+    height: 18px;
+}
+
+li.role {
+    cursor: pointer;
+    width: 20%;
+    padding: 10px;
+}
+
+.role:hover {
+    background-color: white;
+}
+
+.remove-icon {
+    cursor: pointer;
+    padding-right: 15px;
+}
+
+li.li-oversquad {
+    cursor: pointer;
+    background: #1F3D44;
+    border-color: #1F3D44;
+    color: white;
+}
+
+.padded {
+    padding: 20px;
+}
+
+.validate-button {
+    margin-top: 20px;
+}
+
+.chat-box {
+    border: 3px solid rgba(35, 34, 32, 0.99);
+    margin: 10px;
+    border-radius: 5px;
+    height: 80%;
+    background-color: rgba(200, 200, 200, 0.90);
+}
+
+.chat-list {
+    min-height: 90%;
+    max-height: 90%;
+    overflow-y: scroll;
+}
+
+.user-list {
+    border-left: 1px solid black;
+    height: 100%;
+}
+
+.create-message {
+    position: relative;
+    top: 0px;
+}
