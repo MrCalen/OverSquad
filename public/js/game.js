@@ -64,7 +64,7 @@ angular.module('OverSquad', [])
 
         $scope.ws = new WebSocket(window.websocketUrl);
         $scope.ws.onopen = function () {
-            $scope.auth($scope.playerRoles);
+            $scope.auth(angular.copy($scope.playerRoles));
         };
 
         $scope.ws.onmessage = function (message) {
