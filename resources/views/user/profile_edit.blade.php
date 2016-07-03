@@ -17,13 +17,13 @@
             <div class="panel-title">Edit your profil</div>
         </div>
         <div class="panel-body">
-            <form class="form-horizontal col-md-9" method="POST">
+            <form class="form-horizontal col-sm-9" method="POST">
                 {{ csrf_field() }}
 
                 <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                    <label for="name" class="col-md-3 control-label">Name</label>
+                    <label for="name" class="col-sm-3 control-label">Name</label>
 
-                    <div class="col-md-9">
+                    <div class="col-sm-9">
                         <input id="name" type="text" class="form-control" name="name" value="{{ $user['name'] }}">
 
                         @if ($errors->has('name'))
