@@ -4,9 +4,25 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Validator;
 
 class UserController extends Controller
 {
+    /**
+     * Get a validator for an incoming profile edition request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return validator()->make($data, [
+            'name' => 'required|max:255',
+            'password' => 'min:6|confirmed',
+            'gametag' => array('Regex:/([A-Za-z]*)#([0-9]{4})/'),
+        ]);
+    }
+
     /**
      * Show the profile for the given user.
      *
@@ -38,12 +54,19 @@ class UserController extends Controller
      */
     public function editProfilePost(Request $request, $id)
     {
-        $updated = $request->all();
+        $fields = $request->all();
 
-        unset($updated['email']);
-        unset($updated['level']); // nope, haxxors
+        unset($fields['email']);
+        unset($fields['level']); // nope, haxxors
 
-        User::findOrFail($id)->update($updated);
+        if (isset($fields['gametag']))
+            $fields['gametag'] = preg_replace('/([A-Za-z]*)-([0-9]{4})/', '${1}#${2}', $fields['gametag']);
+
+        $validator = $this->validator($fields);
+        if ($validator->fails())
+            return redirect()->route('editProfile', ['id' => $id])->withErrors($validator)->withInput();
+
+        User::findOrFail($id)->update($fields);
         return redirect()->route('showProfile', ['id' => $id]);
     }
 }
