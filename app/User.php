@@ -45,4 +45,22 @@ class User extends Authenticatable
             ->firstChild()
             ->text;
     }
+
+    public function getHeroes()
+    {
+        return self::getHeroesFromGametag($this->gametag);
+    }
+
+    public static function getHeroesFromGametag($gametag)
+    {
+        $dom = new Dom;
+        $gametagModified = str_replace("#", "-", $gametag);
+        $dom->loadFromUrl('https://playoverwatch.com/en-us/career/pc/eu/' . $gametagModified);
+        $list = [];
+
+        foreach ($dom->find('.progress-category', 0)->find('.title') as $node)
+            $list[] = $node->text;
+
+        return $list;
+    }
 }
