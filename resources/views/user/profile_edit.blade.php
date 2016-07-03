@@ -17,7 +17,7 @@
             <div class="panel-title">Edit your profil</div>
         </div>
         <div class="panel-body">
-            <form class="form-horizontal col-sm-9" method="POST">
+            <form class="form-horizontal col-sm-9" method="POST" enctype="multipart/form-data">
                 {{ csrf_field() }}
 
                 <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -89,6 +89,18 @@
                         @if ($errors->has('password_confirmation'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('password_confirmation') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group{{ $errors->has('picture') ? ' has-error' : '' }}">
+                    <label class="col-sm-3 control-label">Profile picture</label>
+                    <div class="col-sm-9">
+                        <input type="file" class="form-control" name="picture" id="picture" />
+                        @if ($errors->has('picture'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('picture') }}</strong>
                             </span>
                         @endif
                     </div>

@@ -56,6 +56,8 @@ class UserController extends Controller
     {
         $fields = $request->all();
 
+        $user = User::findOrFail($id);
+
         unset($fields['email']);
         unset($fields['level']); // nope, haxxors
 
@@ -66,7 +68,16 @@ class UserController extends Controller
         if ($validator->fails())
             return redirect()->route('editProfile', ['id' => $id])->withErrors($validator)->withInput();
 
-        User::findOrFail($id)->update($fields);
+        if ($request->hasFile('picture')) {
+            $picture = $request->file('picture');
+            if (!$picture->isValid())
+                return redirect()->route('editProfile', ['id' => $id])->withErrors($validator)->withInput();
+
+            $picture->move(public_path('images/profile'), $user['name']);
+            $fields['picture'] = url('/images/profile', $user['name']);
+        }
+
+        $user->update($fields);
         return redirect()->route('showProfile', ['id' => $id]);
     }
 }
