@@ -39,7 +39,10 @@ class UserController extends Controller
     public function editProfilePost(Request $request, $id)
     {
         $updated = $request->all();
-        
+
+        unset($updated['email']);
+        unset($updated['level']); // nope, haxxors
+
         User::findOrFail($id)->update($updated);
         return redirect()->route('showProfile', ['id' => $id]);
     }
