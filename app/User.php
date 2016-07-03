@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Storage;
 use PHPHtmlParser\Dom;
 use Log;
 
@@ -33,11 +34,15 @@ class User extends Authenticatable
     }
 
     public static function getLevelFromGametag($gametag) {
-      $dom = new Dom;
-      $gametagModified = str_replace("#", "-", $gametag);
-      $dom->loadFromUrl('https://playoverwatch.com/en-us/career/pc/eu/' . $gametagModified);
-      return $dom->find('.player-level')[0]
-                 ->firstChild()
-                 ->text;
+        $dom = new Dom;
+        $gametagModified = str_replace("#", "-", $gametag);
+        $dom->loadFromUrl('https://playoverwatch.com/en-us/career/pc/eu/' . $gametagModified);
+
+        if (!$dom->find('.player-level')[0])
+            return 0;
+
+        return $dom->find('.player-level')[0]
+            ->firstChild()
+            ->text;
     }
 }
