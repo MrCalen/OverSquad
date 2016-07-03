@@ -21,6 +21,9 @@ class CreateUsersTable extends Migration
             $table->integer('level');
             $table->integer('admin')->default(0);
             $table->string('picture')->default('https://thekrehlife.files.wordpress.com/2015/12/image1.jpeg?w=620');
+            $table->string('hero1');
+            $table->string('hero2');
+            $table->string('hero3');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -34,7 +37,6 @@ class CreateUsersTable extends Migration
             $table->integer('p5')->unsigned();
             $table->integer('p6')->unsigned();
         });
-
 
         Schema::table('games', function (Blueprint $table) {
             $table->foreign('p1')->references('id')->on('users')->onDelete('cascade');

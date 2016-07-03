@@ -14,6 +14,24 @@
   text-decoration: none;
 }
 
+.overwatch-hero {
+  font-size: 30px;
+  color: #1F3D44;
+  font-family: Overwatch;
+  text-decoration: none;
+}
+
+.overwatch-hero::first-letter {
+  font-size: 35px;
+}
+
+.overwatch-time {
+  font-size: 20px;
+  color: #1F3D44;
+  font-family: Overwatch;
+  text-decoration: none;
+}
+
 .full-height {
   background-image: url('http://www.hdwallpaper.nu/wp-content/uploads/2016/05/overwatch_wallpaper_hd_by_mrnocilla-d9q4d3z.jpg');
 }

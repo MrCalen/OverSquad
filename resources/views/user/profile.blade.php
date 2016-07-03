@@ -76,4 +76,70 @@
         @endforelse
         <div class="row">
     @endif
+
+    <row>
+
+      <hr class="col-md-8">
+      <div class="text-center overwatch-title" style="width:66%; margin-top:0px;">
+        Most Played Heroes
+      </div>
+
+      <div class="col-md-3">
+        <svg id="graph" width="150px" height="150px">
+          <defs>
+            <pattern id="image1" x="0%" y="0%" height="100%" width="100%"
+                     viewBox="0 0 190 190">
+              <image x="20px" y="20px" width="150px" height="150px" xlink:href="{{$user->getHeroIconWithRank(1)}}"></image>
+            </pattern>
+          </defs>
+          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="rgba(31, 60, 66, 0.9)" stroke="#1F3D44" stroke-width="2.5%" />
+          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="url(#image1)" stroke="#FA961E" stroke-width="1%" />
+        </svg>
+        <div class="text-center overwatch-hero" style="width:150px; margin-top:0px; margin-bottom:0px;">
+          <?php echo $user->getHeroNameWithRank(1) ?>
+        </div>
+        <div class="text-center overwatch-time" style="width:150px; margin-top:0px;">
+          <?php echo $user->getHeroTimeWithRank(1) ?>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <svg id="graph" width="150px" height="150px">
+          <defs>
+            <pattern id="image2" x="0%" y="0%" height="100%" width="100%"
+                     viewBox="0 0 190 190">
+              <image x="20px" y="20px" width="150px" height="150px" xlink:href="{{$user->getHeroIconWithRank(2)}}"></image>
+            </pattern>
+          </defs>
+          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="rgba(31, 60, 66, 0.9)" stroke="#1F3D44" stroke-width="2.5%" />
+          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="url(#image2)" stroke="#FA961E" stroke-width="1%" />
+        </svg>
+        <div class="text-center overwatch-hero" style="width:150px; margin-top:0px; margin-bottom:0px;">
+          <?php echo $user->getHeroNameWithRank(2) ?>
+        </div>
+        <div class="text-center overwatch-time" style="width:150px; margin-top:0px;">
+          <?php echo $user->getHeroTimeWithRank(2) ?>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <svg id="graph" width="150px" height="150px">
+          <defs>
+            <pattern id="image3" x="0%" y="0%" height="100%" width="100%"
+                     viewBox="0 0 190 190">
+              <image x="20px" y="20px" width="150px" height="150px" xlink:href="{{$user->getHeroIconWithRank(3)}}"></image>
+            </pattern>
+          </defs>
+          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="rgba(31, 60, 66, 0.9)" stroke="#1F3D44" stroke-width="2.5%" />
+          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="url(#image3)" stroke="#FA961E" stroke-width="1%" />
+        </svg>
+        <div class="text-center overwatch-hero" style="width:150px; margin-top:0px; margin-bottom:0px;">
+          <?php echo $user->getHeroNameWithRank(3) ?>
+        </div>
+        <div class="text-center overwatch-time" style="width:150px; margin-top:0px;">
+          <?php echo $user->getHeroTimeWithRank(3) ?>
+        </div>
+      </div>
+
+    </row>
 @endsection

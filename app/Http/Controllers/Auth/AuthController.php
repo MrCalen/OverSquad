@@ -70,7 +70,10 @@ class AuthController extends Controller
             'password' => bcrypt($data['password-register']),
             'gametag' => $data['gametag'],
             'level' => User::getLevelFromGametag($data['gametag']),
-            'picture' => url('images/default_profile.jpg')
+            'picture' => url('images/default_profile.jpg'),
+            'hero1' => User::getHeroWithRankFromGametag(0, $data['gametag']),
+            'hero2' => User::getHeroWithRankFromGametag(1, $data['gametag']),
+            'hero3' => User::getHeroWithRankFromGametag(2, $data['gametag']),
         ]);
     }
 }
