@@ -2,19 +2,7 @@
 
 @section('css')
     @parent
-    <style>
-        #profil-panel {
-            margin-top: 15px;
-        }
-
-        #profil-edit-icon {
-            color: #666;
-        }
-
-        #profil-edit-icon:hover {
-            color: #333;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ URL::asset('css/profile.css') }}"/>
 @endsection
 
 @section('body')
@@ -51,4 +39,41 @@
 
         </div>
     </div>
+
+    @if($user['id'] == Auth::user()->id)
+        @if(count($games) !== 0)
+            <div class="overwatch-title text-center" style="font-size: 60px; color: white;">Last games</div>
+        @endif
+        @forelse($games as $game)
+            <div class="container-fluid game panel panel-default">
+                <div class="row">
+                @foreach($game->players as $player)
+                    <div class="col-md-2 text-center">
+                        <img class="img img-responsive" src="{{ $player->picture }}"/>
+                    </div>
+                @endforeach
+                </div>
+                <br>
+                <div class="row">
+                    @foreach($game->players as $player)
+                        <div class="col-md-2 text-center">
+                            @if($user['id'] === $player->id)
+                                <a href="{{ URL::route('showProfile', ['id' => $player->id ]) }}" class="btn btn-primary">
+                                    {{ $player->gametag }}
+                                </a>
+                            @else
+                                <a href="{{ URL::route('showProfile', ['id' => $player->id ]) }}" class="btn btn-warning">
+                                    {{ $player->gametag }}
+                                </a>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <br>
+        @empty
+            <div class="overwatch-title text-center" style="font-size: 60px; color: white;">No games found</div>
+        @endforelse
+        <div class="row">
+    @endif
 @endsection

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Log;
+use App\Models\Game;
 use App\User;
 use Illuminate\Http\Request;
 use Validator;
@@ -31,7 +33,8 @@ class UserController extends Controller
      */
     public function showProfile($id)
     {
-        return view('user.profile', ['user' => User::findOrFail($id)]);
+        return view('user.profile', ['user' => User::findOrFail($id),
+                                     'games' => $this->getLastTenGames($id)]);
     }
 
     /**
@@ -79,5 +82,28 @@ class UserController extends Controller
 
         $user->update($fields);
         return redirect()->route('showProfile', ['id' => $id]);
+    }
+
+    private function getLastTenGames($id)
+    {
+        $games = Game::where('p1', '=', $id)
+                ->orWhere('p2', '=', $id)
+                ->orWhere('p3', '=', $id)
+                ->orWhere('p4', '=', $id)
+                ->orWhere('p5', '=', $id)
+                ->orWhere('p6', '=', $id)
+                ->orderBy('id', 'desc')
+                ->take(10)
+                ->get();
+        foreach ($games as $game)
+        {
+            array_push($game->players, User::findOrFail($game->p1));
+            array_push($game->players, User::findOrFail($game->p2));
+            array_push($game->players, User::findOrFail($game->p3));
+            array_push($game->players, User::findOrFail($game->p4));
+            array_push($game->players, User::findOrFail($game->p5));
+            array_push($game->players, User::findOrFail($game->p6));
+        }
+        return $games;
     }
 }

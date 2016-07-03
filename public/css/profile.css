@@ -1,0 +1,23 @@
+.game {
+    padding: 10;
+    background-color: rgb(31, 61, 68);
+
+    background-color: rgb(255, 255, 255);
+}
+
+.content {
+    height: auto !important;
+    min-height: 960px;
+}
+
+#profil-panel {
+    margin-top: 15px;
+}
+
+#profil-edit-icon {
+    color: #666;
+}
+
+#profil-edit-icon:hover {
+    color: #333;
+}

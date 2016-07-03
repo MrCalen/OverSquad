@@ -48,6 +48,56 @@ class PlayersManagerTest extends TestCase
     }
 
     /**
+     * Test lotsOfGame().
+     *
+     * @return void
+     */
+    public function testLotsOfGame()
+    {
+        $pm = new PlayersManager();
+        $conn = new Connection(null);
+        $conn->setUser(new User());
+        $conns = array();
+        for ($i = 0; $i < 51; $i++)
+        {
+            $conn = new Connection(null);
+            $conn->setUser(new User());
+            array_push($conns, $conn);
+        }
+        $pm->userConnected($conns[0], [Roles::ATTACK]);
+        $pm->userConnected($conns[1], [Roles::TANK]);
+        $pm->userConnected($conns[2], [Roles::SUPPORT]);
+        $pm->userConnected($conns[3], [Roles::ATTACK]);
+        $pm->userConnected($conns[4], [Roles::ATTACK]);
+        $this->assertTrue(count($pm->getRooms()) == 1);
+        $pm->userConnected($conns[5], [Roles::ATTACK]);
+        $this->assertTrue(count($pm->getRooms()) == 2);
+        for ($i = 6; $i <= 12; $i++)
+        {
+            $pm->userConnected($conns[$i], [Roles::SUPPORT]);
+            $this->assertTrue(count($pm->getRooms()) == 2 + $i - 6);
+        }
+        for ($i = 13; $i <= 25; $i++)
+        {
+            $pm->userConnected($conns[$i], [Roles::TANK]);
+            $i++;
+            $pm->userConnected($conns[$i], [Roles::DEFENSE]);
+            $this->assertTrue(count($pm->getRooms()) == 8);
+        }
+        for ($i = 26; $i <= 46; $i++)
+        {
+            $pm->userConnected($conns[$i], [Roles::ATTACK]);
+            $i++;
+            $this->assertTrue(count($pm->getRooms()) == 8);
+        }
+        $pm->userConnected($conns[47], [Roles::ATTACK]);
+        $pm->userConnected($conns[48], [Roles::TANK]);
+        $pm->userConnected($conns[49], [Roles::SUPPORT]);
+        $pm->userConnected($conns[50], [Roles::DEFENSE]);
+        $this->assertTrue(count($pm->getRooms()) == 9);
+    }
+
+    /**
      * Test UserLeave().
      *
      * @return void
