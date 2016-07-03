@@ -63,8 +63,10 @@
                 </ul>
             </div>
             <hr>
-            <ul class="role-choices" choice-list="roles">
-                <li ng-repeat="item in roles track by $index" ng-switch="item.value" class="role-choice">
+            <ul class="role-choices" choice-list="roles" ng-if="roles.length">
+                <li ng-repeat="item in roles track by $index"
+                    ng-switch="item.value"
+                    class="role-choice">
                     <div ng-switch-when="1">
                         <span class="left remove-icon" ng-click="removeRole($index)"><i class="fa fa-remove fa-fw"></i></span>
                         <svg viewBox="0 0 32 32" role="presentation" class="icon">
@@ -116,12 +118,13 @@
                 </li>
             </ul>
             <ul class="role-choices">
-                <li ng-show="roles.length === 3" class="role-choice li-oversquad validate-button" ng-click="start()">
+                <li ng-show="roles.length === 3" class="role-choice li-oversquad validate-button"
+                    ng-click="start()">
                     <div class="futura padded">Valider</div>
                 </li>
             </ul>
         </div>
-        <div ng-show="step == 1" class="animate-if">
+        <div ng-show="step == 1" >
             <div class="row theme">
                 <div ng-if="!roomStatus">
                     <img src="http://samherbert.net/svg-loaders/svg-loaders/rings.svg">
