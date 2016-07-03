@@ -36,18 +36,18 @@
         </div>
         <div class="panel-body">
 
-            <dl class="dl-horizontal">
-                <dt>Name</dt>
-                <dd><?php echo $user['name'] ?></dd>
-            </dl>
-            <dl class="dl-horizontal">
-                <dt>Tag</dt>
-                <dd><?php echo $user['gametag'] ?></dd>
-            </dl>
-            <dl class="dl-horizontal">
-                <dt>Level</dt>
-                <dd><?php echo $user['level'] ?></dd>
-            </dl>
+            <div class="media">
+                <div class="media-left media-middle">
+                    <img class="media-object" width="64" height="64" src="{{ $user['picture'] }}" alt="{{ $user['name'] }}" />
+                </div>
+                <div class="media-body">
+
+                    <strong>Name</strong>: {{ $user['name'] }}<br />
+                    <strong>Tag</strong>: {{ $user['gametag'] }}<br />
+                    <strong>Level</strong>: {{ $user['level'] }}<br />
+
+                </div>
+            </div>
 
         </div>
     </div>
