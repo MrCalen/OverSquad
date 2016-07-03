@@ -38,7 +38,9 @@ class UserController extends Controller
      */
     public function editProfilePost(Request $request, $id)
     {
-        User::findOrFail($id)->update($request->all());
+        $updated = $request->all();
+        
+        User::findOrFail($id)->update($updated);
         return redirect()->route('showProfile', ['id' => $id]);
     }
 }
