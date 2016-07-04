@@ -40,43 +40,6 @@
         </div>
     </div>
 
-    @if($user['id'] == Auth::user()->id)
-        @if(count($games) !== 0)
-            <div class="overwatch-title text-center" style="font-size: 60px; color: white;">Last games</div>
-        @endif
-        @forelse($games as $game)
-            <div class="container-fluid game panel panel-default">
-                <div class="row">
-                @foreach($game->players as $player)
-                    <div class="col-md-2 text-center">
-                        <img class="img img-responsive" src="{{ $player->picture }}"/>
-                    </div>
-                @endforeach
-                </div>
-                <br>
-                <div class="row">
-                    @foreach($game->players as $player)
-                        <div class="col-md-2 text-center">
-                            @if($user['id'] === $player->id)
-                                <a href="{{ URL::route('showProfile', ['id' => $player->id ]) }}" class="btn btn-primary">
-                                    {{ $player->gametag }}
-                                </a>
-                            @else
-                                <a href="{{ URL::route('showProfile', ['id' => $player->id ]) }}" class="btn btn-warning">
-                                    {{ $player->gametag }}
-                                </a>
-                            @endif
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-            <br>
-        @empty
-            <div class="overwatch-title text-center" style="font-size: 60px; color: white;">No games found</div>
-        @endforelse
-        <div class="row">
-    @endif
-
     <row>
 
       <hr class="col-md-8">
@@ -93,7 +56,7 @@
             </pattern>
           </defs>
           <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="rgba(31, 60, 66, 0.9)" stroke="#1F3D44" stroke-width="2.5%" />
-          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="url(#image1)" stroke="#FA961E" stroke-width="1%" />
+          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="url(#image1)" stroke="white" stroke-width="1%" />
         </svg>
         <div class="text-center overwatch-hero" style="width:150px; margin-top:0px; margin-bottom:0px;">
           <?php echo $user->getHeroNameWithRank(1) ?>
@@ -112,7 +75,7 @@
             </pattern>
           </defs>
           <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="rgba(31, 60, 66, 0.9)" stroke="#1F3D44" stroke-width="2.5%" />
-          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="url(#image2)" stroke="#FA961E" stroke-width="1%" />
+          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="url(#image2)" stroke="white" stroke-width="1%" />
         </svg>
         <div class="text-center overwatch-hero" style="width:150px; margin-top:0px; margin-bottom:0px;">
           <?php echo $user->getHeroNameWithRank(2) ?>
@@ -131,7 +94,7 @@
             </pattern>
           </defs>
           <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="rgba(31, 60, 66, 0.9)" stroke="#1F3D44" stroke-width="2.5%" />
-          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="url(#image3)" stroke="#FA961E" stroke-width="1%" />
+          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="url(#image3)" stroke="white" stroke-width="1%" />
         </svg>
         <div class="text-center overwatch-hero" style="width:150px; margin-top:0px; margin-bottom:0px;">
           <?php echo $user->getHeroNameWithRank(3) ?>
@@ -142,4 +105,49 @@
       </div>
 
     </row>
+
+    <row>
+      <hr class="col-md-8">
+      <div class="col-md-8">
+        @if(count($games) !== 0)
+            <div class="overwatch-title text-center" style="font-size: 60px; color: white;">Last games</div>
+        @endif
+      </div>
+      <div class="col-md-9">
+      @if($user['id'] == Auth::user()->id)
+          @forelse($games as $game)
+              <div class="container-fluid game panel panel-default">
+                  <div class="row">
+                  @foreach($game->players as $player)
+                      <div class="col-md-2 text-center">
+                          <img class="img img-responsive user-hover" src="{{ $player->picture }}" id="{{ $player->id }}"/>
+                      </div>
+                  @endforeach
+                  </div>
+                  <br>
+                  <div class="row">
+                      @foreach($game->players as $player)
+                          <div class="col-md-2 text-center">
+                                <a href="{{ URL::route('showProfile', ['id' => $player->id ]) }}" class="btn @if($user['id'] === $player->id) btn-primary @else btn-warning @endif" style="width: 100%; overflow-x: ellipsis">
+                                    {{ $player->gametag }}
+                                </a>
+                          </div>
+                      @endforeach
+                  </div>
+              </div>
+              <br>
+          @empty
+              <div class="overwatch-title text-center" style="width:66%; font-size: 60px; margin-top:0px;">No games found</div>
+          @endforelse
+          <div class="row">
+      @endif
+
+    </div>
+
+    </row>
+
+@endsection
+
+@section('scripts')
+  @parent
 @endsection

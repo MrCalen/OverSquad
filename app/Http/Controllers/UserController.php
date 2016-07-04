@@ -65,7 +65,7 @@ class UserController extends Controller
         unset($fields['level']); // nope, haxxors
 
         if (isset($fields['gametag']))
-            $fields['gametag'] = preg_replace('/([A-Za-z]*)-([0-9]{4})/', '${1}#${2}', $fields['gametag']);
+            $fields['gametag'] = preg_replace('/([A-Za-z0-9]*)-([0-9]{4})/', '${1}#${2}', $fields['gametag']);
 
         $validator = $this->validator($fields);
         if ($validator->fails())

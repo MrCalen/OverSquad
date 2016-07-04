@@ -74,7 +74,7 @@
                                     <div class="form-group{{ $errors->has('gametag') ? ' has-error' : '' }}">
                                         <input type="text" name="gametag" required id="gametag" tabindex="1"
                                                class="form-control" placeholder="Battletag" value="{{ old('gametag') }}"
-                                               pattern="([A-Za-z]*)#([0-9]{4})" title="For example: UserName#1234">
+                                               pattern="([A-Za-z0-9]*)#([0-9]{4})" title="For example: UserName#1234">
                                         @if ($errors->has('gametag'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('gametag') }}</strong>
