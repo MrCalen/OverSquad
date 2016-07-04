@@ -48,8 +48,6 @@ angular.module('OverSquad', [])
                 $scope.playerRoles.push(elt.value);
             });
             console.log($scope.playerRoles);
-            return;
-
             $scope.step = 1;
 
             /* Popup before leaving room */

@@ -7,6 +7,7 @@ use App\Models\Game;
 use App\User;
 use Illuminate\Http\Request;
 use Validator;
+use Session;
 
 class UserController extends Controller
 {
@@ -33,8 +34,15 @@ class UserController extends Controller
      */
     public function showProfile($id)
     {
-        return view('user.profile', ['user' => User::findOrFail($id),
-                                     'games' => $this->getLastTenGames($id)]);
+        $user = User::findOrFail($id);
+        $data = [
+            'user' => $user,
+            'games' => $this->getLastTenGames($id),
+        ];
+        if ($user && $user->level === 0) {
+            Session::put('error', 'Invalid Tag detected');
+        }
+        return view('user.profile', $data);
     }
 
     /**
@@ -64,8 +72,9 @@ class UserController extends Controller
         unset($fields['email']);
         unset($fields['level']); // nope, haxxors
 
-        if (isset($fields['gametag']))
+        if (isset($fields['gametag'])) {
             $fields['gametag'] = preg_replace('/([A-Za-z0-9]*)-([0-9]{4})/', '${1}#${2}', $fields['gametag']);
+        }
 
         $validator = $this->validator($fields);
         if ($validator->fails())
