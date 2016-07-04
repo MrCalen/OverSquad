@@ -21,3 +21,19 @@
 #profil-edit-icon:hover {
     color: #333;
 }
+
+.profile-btn {
+  text-overflow: ellipsis;
+  width: 100%;
+  overflow: hidden;
+  z-index: 0 !important;
+}
+
+.profile-btn:hover {
+  text-overflow: none;
+  overflow: visible;
+  color: #1F3D44;
+  font-weight: bold;
+  z-index: 1 !important;
+  position: relative;
+}

@@ -113,7 +113,7 @@
             <div class="overwatch-title text-center" style="font-size: 60px; color: white;">Last games</div>
         @endif
       </div>
-      <div class="col-md-9">
+      <div class="col-md-8">
       @if($user['id'] == Auth::user()->id)
           @forelse($games as $game)
               <div class="container-fluid game panel panel-default">
@@ -128,7 +128,7 @@
                   <div class="row">
                       @foreach($game->players as $player)
                           <div class="col-md-2 text-center">
-                                <a href="{{ URL::route('showProfile', ['id' => $player->id ]) }}" class="btn @if($user['id'] === $player->id) btn-primary @else btn-warning @endif" style="width: 100%; overflow-x: ellipsis">
+                                <a href="{{ URL::route('showProfile', ['id' => $player->id ]) }}" class="profile-btn btn @if($user['id'] === $player->id) btn-primary @else btn-warning @endif" >
                                     {{ $player->gametag }}
                                 </a>
                           </div>
