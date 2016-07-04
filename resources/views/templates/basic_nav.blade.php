@@ -23,8 +23,8 @@
             </li>
             <li class="text-center white">
                 <h4>"{{ Auth::user()->gametag }}"</h4>
-                @if (Session::has('error'))
-                    <div class="" style="font-size: 15px; color: red;">{{ Session::get('error') }}</div>
+                @if (Auth::user()->level === 0)
+                    <div class="" style="font-size: 15px; color: red;">Your gametag is invalid</div>
                 @endif
 
             </li>

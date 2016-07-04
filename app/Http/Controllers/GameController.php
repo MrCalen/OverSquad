@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use JWTAuth;
 use Redirect;
+use Session;
 
 class GameController extends Controller
 {
@@ -16,6 +17,7 @@ class GameController extends Controller
                 'error' => 'your gametag is invalid',
             ], 403);
         }
+
         $token = JWTAuth::fromUser($user);
         return view('home/game', [
             'token' => $token,

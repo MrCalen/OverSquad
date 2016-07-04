@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Validator;
 use Session;
+use Auth;
 
 class UserController extends Controller
 {
@@ -39,9 +40,6 @@ class UserController extends Controller
             'user' => $user,
             'games' => $this->getLastTenGames($id),
         ];
-        if ($user && $user->level === 0) {
-            Session::put('error', 'Invalid Tag detected');
-        }
         return view('user.profile', $data);
     }
 

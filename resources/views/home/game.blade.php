@@ -63,7 +63,7 @@
                 </ul>
             </div>
             <hr>
-            <ul class="role-choices" choice-list="roles" ng-if="roles.length">
+            <ul class="role-choices" ng-if="roles.length">
                 <li ng-repeat="item in roles track by $index"
                     ng-switch="item.value"
                     class="role-choice">
@@ -118,7 +118,7 @@
                 </li>
             </ul>
             <ul class="role-choices">
-                <li ng-show="roles.length === 3" class="role-choice li-oversquad validate-button"
+                <li ng-show="roles.length" class="role-choice li-oversquad validate-button"
                     ng-click="start()">
                     <div class="futura padded">Valider</div>
                 </li>

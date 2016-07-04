@@ -18,12 +18,10 @@ angular.module('OverSquad', [])
         $scope.roles = [];
 
         $scope.addRole = function (value) {
-            if ($scope.roles.length >= 3) return;
             if ($scope.roles.find(function (elt) {
                     return elt.value === value;
                 }))
                 return;
-
             $scope.roles.push({
                 name: $scope.const_roles[value],
                 value: value
@@ -47,7 +45,6 @@ angular.module('OverSquad', [])
             angular.copy($scope.roles).forEach(function (elt) {
                 $scope.playerRoles.push(elt.value);
             });
-            console.log($scope.playerRoles);
             $scope.step = 1;
 
             /* Popup before leaving room */

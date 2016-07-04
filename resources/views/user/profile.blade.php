@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <row>
+    <div class="row">
 
       <hr class="col-md-8">
       <div class="text-center overwatch-title" style="width:66%; margin-top:0px;">
@@ -55,14 +55,14 @@
               <image x="20px" y="20px" width="150px" height="150px" xlink:href="{{$user->getHeroIconWithRank(1)}}"></image>
             </pattern>
           </defs>
-          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="rgba(31, 60, 66, 0.9)" stroke="#1F3D44" stroke-width="2.5%" />
-          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="url(#image1)" stroke="white" stroke-width="1%" />
+          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="rgba(31, 60, 66, 0.9)" stroke="#1F3D44" stroke-width="2.5%"></circle>
+          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="url(#image1)" stroke="white" stroke-width="1%"></circle>
         </svg>
         <div class="text-center overwatch-hero" style="width:150px; margin-top:0px; margin-bottom:0px;">
-          <?php echo $user->getHeroNameWithRank(1) ?>
+          {{ $user->getHeroNameWithRank(1) }}
         </div>
         <div class="text-center overwatch-time" style="width:150px; margin-top:0px;">
-          <?php echo $user->getHeroTimeWithRank(1) ?>
+          {{ $user->getHeroTimeWithRank(1) }}
         </div>
       </div>
 
@@ -74,14 +74,14 @@
               <image x="20px" y="20px" width="150px" height="150px" xlink:href="{{$user->getHeroIconWithRank(2)}}"></image>
             </pattern>
           </defs>
-          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="rgba(31, 60, 66, 0.9)" stroke="#1F3D44" stroke-width="2.5%" />
-          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="url(#image2)" stroke="white" stroke-width="1%" />
+          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="rgba(31, 60, 66, 0.9)" stroke="#1F3D44" stroke-width="2.5%"></circle>
+          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="url(#image2)" stroke="white" stroke-width="1%"></circle>
         </svg>
         <div class="text-center overwatch-hero" style="width:150px; margin-top:0px; margin-bottom:0px;">
-          <?php echo $user->getHeroNameWithRank(2) ?>
+          {{  $user->getHeroNameWithRank(2) }}
         </div>
         <div class="text-center overwatch-time" style="width:150px; margin-top:0px;">
-          <?php echo $user->getHeroTimeWithRank(2) ?>
+          {{ $user->getHeroTimeWithRank(2) }}
         </div>
       </div>
 
@@ -93,20 +93,20 @@
               <image x="20px" y="20px" width="150px" height="150px" xlink:href="{{$user->getHeroIconWithRank(3)}}"></image>
             </pattern>
           </defs>
-          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="rgba(31, 60, 66, 0.9)" stroke="#1F3D44" stroke-width="2.5%" />
-          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="url(#image3)" stroke="white" stroke-width="1%" />
+          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="rgba(31, 60, 66, 0.9)" stroke="#1F3D44" stroke-width="2.5%" ></circle>
+          <circle id="sd" class="medium" cx="50%" cy="50%" r="45%" fill="url(#image3)" stroke="white" stroke-width="1%" ></circle>
         </svg>
         <div class="text-center overwatch-hero" style="width:150px; margin-top:0px; margin-bottom:0px;">
-          <?php echo $user->getHeroNameWithRank(3) ?>
+          {{ $user->getHeroNameWithRank(3) }}
         </div>
         <div class="text-center overwatch-time" style="width:150px; margin-top:0px;">
-          <?php echo $user->getHeroTimeWithRank(3) ?>
+          {{ $user->getHeroTimeWithRank(3) }}
         </div>
       </div>
 
-    </row>
+    </div>
 
-    <row>
+    <div class="row">
       <hr class="col-md-8">
       <div class="col-md-8">
         @if(count($games) !== 0)
@@ -143,8 +143,7 @@
       @endif
 
     </div>
-
-    </row>
+    </div>
 
 @endsection
 
