@@ -88,7 +88,7 @@ class PlayersManagerTest extends TestCase
             $pm->userConnected($conns[$i], [Roles::DEFENSE]);
             $this->assertTrue(count($pm->getRooms()) == 8);
         }
-        for ($i = 26; $i <= 45; $i++) {
+        for ($i = 27; $i <= 45; $i++) {
             $pm->userConnected($conns[$i], [Roles::ATTACK]);
             $this->assertTrue(count($pm->getRooms()) == 8);
         }
@@ -120,7 +120,7 @@ class PlayersManagerTest extends TestCase
         $pm->userLeave($conns[3]);
         $pm->userLeave($conns[4]);
         $pm->userLeave($conns[5]);
-        for ($i = 26; $i <= 45; $i++) {
+        for ($i = 27; $i <= 45; $i++) {
             $pm->userLeave($conns[$i]);
         }
 
@@ -136,31 +136,17 @@ class PlayersManagerTest extends TestCase
         $pm->userLeave($conns[1]);
         $pm->userLeave($conns[2]);
 
-        for ($i = 13; $i <= 25; $i++) {
+        for ($i = 13; $i <= 26; $i++) {
             $pm->userLeave($conns[$i]);
-            $i++;
-            $pm->userLeave($conns[$i]);
-
         }
 
-        $this->assertTrue(count($pm->getRooms()) == 3);
+        $this->assertTrue(count($pm->getRooms()) == 2);
 
         $pm->userLeave($conns[46]);
         $pm->userLeave($conns[47]);
         $pm->userLeave($conns[48]);
         $pm->userLeave($conns[49]);
-
         $this->assertTrue(count($pm->getRooms()) == 0);
-
-        // force leave
-        for ($i = 0; $i < 50; $i++) {
-            $pm->userLeave($conns[$i]);
-        }
-
-        // Should be 0
-        $this->assertTrue(count($pm->getRooms()) == 0);
-
-
     }
 
     /**
