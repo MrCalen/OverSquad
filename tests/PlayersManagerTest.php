@@ -32,8 +32,7 @@ class PlayersManagerTest extends TestCase
         $conn = new Connection(null);
         $conn->setUser(new User());
         $conns = array();
-        for ($i = 0; $i < 7; $i++)
-        {
+        for ($i = 0; $i < 7; $i++) {
             $conn = new Connection(null);
             $conn->setUser(new User());
             array_push($conns, $conn);
@@ -57,14 +56,14 @@ class PlayersManagerTest extends TestCase
         $pm = new PlayersManager();
         $conn = new Connection(null);
         $conn->setUser(new User());
-        $conns = array();
-        for ($i = 0; $i < 50; $i++)
-        {
+        $conns = [];
+        for ($i = 0; $i < 50; $i++) {
             $conn = new Connection(null);
             $user = new User();
+            $user->i = $i;
             $user->setCreatedAt($i);
-            $conn->setUser(new User());
-            array_push($conns, $conn);
+            $conn->setUser($user);
+            $conns[] = $conn;
         }
 
         $this->assertTrue(count($pm->getRooms()) == 0);
@@ -79,20 +78,17 @@ class PlayersManagerTest extends TestCase
         $this->assertTrue(count($pm->getRooms()) == 1);
         $pm->userConnected($conns[5], [Roles::ATTACK]);
         $this->assertTrue(count($pm->getRooms()) == 2);
-        for ($i = 6; $i <= 12; $i++)
-        {
+        for ($i = 6; $i <= 12; $i++) {
             $pm->userConnected($conns[$i], [Roles::SUPPORT]);
             $this->assertTrue(count($pm->getRooms()) == 2 + $i - 6);
         }
-        for ($i = 13; $i <= 25; $i++)
-        {
+        for ($i = 13; $i <= 25; $i++) {
             $pm->userConnected($conns[$i], [Roles::TANK]);
             $i++;
             $pm->userConnected($conns[$i], [Roles::DEFENSE]);
             $this->assertTrue(count($pm->getRooms()) == 8);
         }
-        for ($i = 26; $i <= 45; $i++)
-        {
+        for ($i = 26; $i <= 45; $i++) {
             $pm->userConnected($conns[$i], [Roles::ATTACK]);
             $this->assertTrue(count($pm->getRooms()) == 8);
         }
@@ -103,8 +99,7 @@ class PlayersManagerTest extends TestCase
         $this->assertTrue(count($pm->getRooms()) == 9);
 
         // leave
-        for ($i = 0; $i <= 4; $i++)
-        {
+        for ($i = 0; $i <= 4; $i++) {
             $pm->userLeave($conns[$i]);
         }
         $pm->userLeave($conns[14]);
@@ -125,8 +120,7 @@ class PlayersManagerTest extends TestCase
         $pm->userLeave($conns[3]);
         $pm->userLeave($conns[4]);
         $pm->userLeave($conns[5]);
-        for ($i = 26; $i <= 45; $i++)
-        {
+        for ($i = 26; $i <= 45; $i++) {
             $pm->userLeave($conns[$i]);
         }
 
@@ -134,8 +128,7 @@ class PlayersManagerTest extends TestCase
         $this->assertTrue(count($pm->getRooms()) == 9);
 
         // leave support
-        for ($i = 6; $i <= 12; $i++)
-        {
+        for ($i = 6; $i <= 12; $i++) {
             $pm->userLeave($conns[$i]);
         }
         $this->assertTrue(count($pm->getRooms()) == 9);
@@ -143,8 +136,7 @@ class PlayersManagerTest extends TestCase
         $pm->userLeave($conns[1]);
         $pm->userLeave($conns[2]);
 
-        for ($i = 13; $i <= 25; $i++)
-        {
+        for ($i = 13; $i <= 25; $i++) {
             $pm->userLeave($conns[$i]);
             $i++;
             $pm->userLeave($conns[$i]);
