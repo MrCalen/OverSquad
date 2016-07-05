@@ -90,6 +90,7 @@ class UserController extends Controller
                 return redirect()->route('showProfile', ['id' => $id])->withErrors($validator)->withInput();
 
             $randStr = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 8)), 0, 8);
+            $randStr .= md5($user->mail);
             $picture->move(public_path('images/profile'), 'img_'.$randStr);
             $fields['picture'] = url('/images/profile', 'img_'.$randStr);
         }
