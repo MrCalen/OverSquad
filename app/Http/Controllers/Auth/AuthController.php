@@ -64,16 +64,22 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $gametag = $data['gametag'];
+        $dom = User::loadProfilePage($gametag);
+
+        $user = [
             'name' => $data['name-register'],
             'email' => $data['email'],
             'password' => bcrypt($data['password-register']),
-            'gametag' => $data['gametag'],
-            'level' => User::getLevelFromGametag($data['gametag']),
+            'gametag' => $gametag,
+            'level' => User::getLevelFromGametag($data['gametag'], $dom),
             'picture' => url('images/default_profile.jpg'),
-            'hero1' => User::getHeroWithRankFromGametag(0, $data['gametag']),
-            'hero2' => User::getHeroWithRankFromGametag(1, $data['gametag']),
-            'hero3' => User::getHeroWithRankFromGametag(2, $data['gametag']),
-        ]);
+            'rank_url' => User::getRank($dom),
+            'hero1' => User::getHeroWithRankFromGametag(0, $gametag, $dom),
+            'hero2' => User::getHeroWithRankFromGametag(1, $gametag, $dom),
+            'hero3' => User::getHeroWithRankFromGametag(2, $gametag, $dom),
+        ];
+
+        return User::create($user);
     }
 }

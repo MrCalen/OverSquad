@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Log;
 use App\Models\Game;
 use App\User;
-use Illuminate\Http\Request;
-use Validator;
-use Session;
 use Auth;
+use Illuminate\Http\Request;
+use Log;
+use Session;
+use Validator;
 
 class UserController extends Controller
 {
     /**
      * Get a validator for an incoming profile edition request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -23,14 +23,14 @@ class UserController extends Controller
         return validator()->make($data, [
             'name' => 'required|max:255',
             'password' => 'min:6|confirmed',
-            'gametag' => array('Regex:/([A-Za-z]*)#([0-9]{4})/'),
+            'gametag' => array ('Regex:/([A-Za-z]*)#([0-9]{4})/'),
         ]);
     }
 
     /**
      * Show the profile for the given user.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function showProfile($id)
@@ -47,7 +47,7 @@ class UserController extends Controller
     /**
      * Show a form to edit the profile of the given user.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function editProfile($id)
@@ -59,7 +59,7 @@ class UserController extends Controller
      * Edit the profile of the given user.
      *
      * @param  Request $request
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function editProfilePost(Request $request, $id)
@@ -75,24 +75,27 @@ class UserController extends Controller
             $fields['gametag'] = preg_replace('/([A-Za-z0-9]*)-([0-9]{4})/', '${1}#${2}', $fields['gametag']);
         }
         $gametagModified = true;
-        if ($fields['gametag'] == $user['gametag'])
-          $gametagModified = false;
+        if ($fields['gametag'] == $user['gametag']) {
+            $gametagModified = false;
+        }
 
         $validator = $this->validator($fields);
-        if ($validator->fails())
+        if ($validator->fails()) {
             return redirect()->route('showProfile', ['id' => $id])->withErrors($validator)->withInput();
+        }
 
         $newImage = false;
         if ($request->hasFile('picture')) {
             $newImage = true;
             $picture = $request->file('picture');
-            if (!$picture->isValid())
+            if (!$picture->isValid()) {
                 return redirect()->route('showProfile', ['id' => $id])->withErrors($validator)->withInput();
+            }
 
             $randStr = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 8)), 0, 8);
             $randStr .= md5($user->mail);
-            $picture->move(public_path('images/profile'), 'img_'.$randStr);
-            $fields['picture'] = url('/images/profile', 'img_'.$randStr);
+            $picture->move(public_path('images/profile'), 'img_' . $randStr);
+            $fields['picture'] = url('/images/profile', 'img_' . $randStr);
         }
 
         if ($newImage) {
@@ -107,22 +110,24 @@ class UserController extends Controller
 
         $user->update($fields);
 
-        if ($gametagModified)
-          $user->refreshPlayerLevelAndHeroes();
+        if ($gametagModified) {
+            $user->refreshPlayerLevelAndHeroes();
+        }
+
         return redirect()->route('showProfile', ['id' => $id]);
     }
 
     private function getLastTenGames($id)
     {
         $games = Game::where('p1', '=', $id)
-                ->orWhere('p2', '=', $id)
-                ->orWhere('p3', '=', $id)
-                ->orWhere('p4', '=', $id)
-                ->orWhere('p5', '=', $id)
-                ->orWhere('p6', '=', $id)
-                ->orderBy('id', 'desc')
-                ->take(10)
-                ->get();
+            ->orWhere('p2', '=', $id)
+            ->orWhere('p3', '=', $id)
+            ->orWhere('p4', '=', $id)
+            ->orWhere('p5', '=', $id)
+            ->orWhere('p6', '=', $id)
+            ->orderBy('id', 'desc')
+            ->take(10)
+            ->get();
         foreach ($games as $game) {
             array_push($game->players, User::findOrFail($game->p1));
             array_push($game->players, User::findOrFail($game->p2));

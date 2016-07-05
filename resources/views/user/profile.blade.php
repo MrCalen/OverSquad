@@ -8,7 +8,7 @@
 
 @section('body')
     @parent
-    <div class="text-center overwatch-title" style="width:66%; margin-top:0px;">
+    <div class="text-center overwatch-title col-md-8">
       {{ $user->name }}'s profile
     </div>
 
@@ -65,7 +65,7 @@
         @endif
       </div>
       <div style="padding-bottom:20px; padding:15px;">
-        <button type="submit" class="btn btn-primary col-md-offset-2 col-md-5" id="saveEditButton">Save modifications</button>
+        <button type="submit" class="btn btn-primary btn-oversquad col-md-offset-3 col-md-3" id="saveEditButton">Save modifications</button>
         <div class="cssload-loader col-md-offset-4 col-sm-offset-12" style="visibility: hidden;" id="loadingEditButton">Searching/Saving your profile</div>
       </div>
 
@@ -139,10 +139,10 @@
     </div>
 
     <div class="row">
-      <hr class="col-md-8">
       <div class="col-md-8">
-        @if(count($games) !== 0)
-            <div class="overwatch-title text-center" style="font-size: 60px; color: white;">Last games</div>
+        @if(count($games) !== 0 && $user['id'] == Auth::user()->id)
+            <div class="overwatch-title text-center" style="font-size: 60px;">Last games</div>
+            <hr>
         @endif
       </div>
       <div class="col-md-8">
@@ -167,9 +167,9 @@
                       @endforeach
                   </div>
               </div>
-              <br>
+              <hr>
           @empty
-              <div class="overwatch-title text-center" style="font-size: 60px; margin-top:0px;">No games found</div>
+              <div class="overwatch-title text-center" style="width:66%; margin-top:0px;">No games found</div>
           @endforelse
           <div class="row">
       @endif

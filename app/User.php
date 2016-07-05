@@ -3,9 +3,9 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Storage;
-use PHPHtmlParser\Dom;
 use Log;
+use PHPHtmlParser\Dom;
+use stringEncode\Exception;
 
 class User extends Authenticatable
 {
@@ -28,37 +28,67 @@ class User extends Authenticatable
         'created_at', 'updated_at',
     ];
 
-    public function refreshPlayerLevelAndHeroes() {
-        $level = $this->getLevel();
+    public static function loadProfilePage($gametag)
+    {
+        $dom = new Dom;
+        $gametagModified = str_replace("#", "-", $gametag);
+        return $dom->loadFromUrl('https://playoverwatch.com/en-us/career/pc/eu/' . $gametagModified);
+    }
+
+    public function refreshPlayerLevelAndHeroes()
+    {
+        $dom = self::loadProfilePage($this->gametag);
+
+        $this->rank_url = User::getRank($dom);
+        $level = self::getLevelFromGametag($this->gametag, $dom);
         $this->level = $level;
-        $hero1 = $this->getHeroWithRank(0);
-        $hero2 = $this->getHeroWithRank(1);
-        $hero3 = $this->getHeroWithRank(2);
+        $hero1 = $this->getHeroWithRank(0, $dom);
+        $hero2 = $this->getHeroWithRank(1, $dom);
+        $hero3 = $this->getHeroWithRank(2, $dom);
+
         $this->hero1 = $hero1;
         $this->hero2 = $hero2;
         $this->hero3 = $hero3;
         $this->save();
-      }
+    }
+
+    public static function getRank($dom)
+    {
+        if (!$dom) {
+            $dom = self::loadProfilePage($dom);
+        }
+
+        $rank = $dom->find('.player-rank');
+        if (!isset($rank[0])) {
+            return null;
+        }
+        $tag = $rank[0]->tag;
+        $rank = $tag->getAttributes();
+        $rank = $rank['style']['value'];
+        return $rank;
+    }
 
     public function getLevel()
     {
         return self::getLevelFromGametag($this->gametag);
     }
 
-    public static function getLevelFromGametag($gametag) {
-        $dom = new Dom;
-        $gametagModified = str_replace("#", "-", $gametag);
+    public static function getLevelFromGametag($gametag, $dom = null)
+    {
         try {
-        $dom->loadFromUrl('https://playoverwatch.com/en-us/career/pc/eu/' . $gametagModified);
+            if ($dom === null) {
+                $dom = self::loadProfilePage($gametag);
+            }
 
-        if (!$dom->find('.player-level')[0])
-            return 0;
+            $find = $dom->find('.player-level')[0];
+            if (!$find) {
+                return 0;
+            }
 
-        return $dom->find('.player-level')[0]
-            ->firstChild()
-            ->text;
+            return $find->firstChild()->text;
+
         } catch (Throwable $e) {
-          return '';
+            return '';
         }
     }
 
@@ -67,89 +97,101 @@ class User extends Authenticatable
         return self::getHeroesFromGametag($this->gametag);
     }
 
-    public static function getHeroesFromGametag($gametag)
+    public static function getHeroesFromGametag($gametag, $dom = null)
     {
-        $dom = new Dom;
-        $gametagModified = str_replace("#", "-", $gametag);
         $list = [];
         try {
-        $dom->loadFromUrl('https://playoverwatch.com/en-us/career/pc/eu/' . $gametagModified);
-        $nameList = [];
-        $timeList = [];
-        $list = [];
+            if ($dom === null) {
+                $dom = self::loadProfilePage($gametag);
+            }
 
-        if (is_null($dom->find('.progress-category', 0)))
-          return $list;
+            $nameList = [];
+            $timeList = [];
+            $list = [];
 
-        foreach ($dom->find('.progress-category', 0)->find('.title') as $node)
-            $nameList[] = $node->text;
+            $progressCategory = $dom->find('.progress-category', 0);
+            if (is_null($progressCategory)) {
+                return $list;
+            }
 
-        foreach ($dom->find('.progress-category', 0)->find('.description') as $node)
-            $timeList[] = $node->text;
+            foreach ($progressCategory->find('.title') as $node) {
+                $nameList[] = $node->text;
+            }
 
-        for ($i = 0; $i < count($nameList); ++$i)
-            $list[$i] = $nameList[$i] . '-' . $timeList[$i];
-      }  catch (Throwable $t) {
-    // Executed only in PHP 7, will not match in PHP 5.x
-      } catch (Exception $e) {
-    // Executed only in PHP 5.x, will not be reached in PHP 7
-      }
-      return $list;
+            foreach ($progressCategory->find('.description') as $node) {
+                $timeList[] = $node->text;
+            }
+
+            for ($i = 0; $i < count($nameList); ++$i) {
+                $list[$i] = $nameList[$i] . '-' . $timeList[$i];
+            }
+        } catch (Throwable $t) {
+        } catch (Exception $e) {
+        }
+        return $list;
     }
 
-    public function getHeroWithRank($rank)
+    public function getHeroWithRank($rank, $dom = null)
     {
-        $list = self::getHeroesFromGametag($this->gametag);
+        $list = self::getHeroesFromGametag($this->gametag, $dom);
         if (count($list) > 0) {
-          return $list[$rank];
+            return $list[$rank];
         } else {
-          return '';
+            return '';
         }
     }
 
-    public static function getHeroWithRankFromGametag($rank, $gametag)
+    public static function getHeroWithRankFromGametag($rank, $gametag, $dom = null)
     {
-        $list = self::getHeroesFromGametag($gametag);
+        $list = self::getHeroesFromGametag($gametag, $dom);
         if (count($list) > 0) {
-          return $list[$rank];
+            return $list[$rank];
         } else {
-          return '';
+            return '';
         }
     }
 
-    public function getHeroNameWithRank($rank) {
-      if ($this->{'hero' . $rank} === '')
-        return 'No Hero';
-      return strstr($this->{'hero' . $rank} , '-', true);
+    public function getHeroNameWithRank($rank)
+    {
+        if ($this->{'hero' . $rank} === '') {
+            return 'No Hero';
+        }
+        return strstr($this->{'hero' . $rank}, '-', true);
     }
 
-    public function getHeroTimeWithRank($rank) {
-        return substr(strstr($this->{'hero' . $rank} , '-'), 1);
+    public function getHeroTimeWithRank($rank)
+    {
+        return substr(strstr($this->{'hero' . $rank}, '-'), 1);
     }
 
-    private function checkHeroName($name) {
-      switch ($name) {
-        case 'lúcio':
-          return 'lucio';
-          break;
-        case 'tobjörn':
-          return 'tobjorn';
-          break;
-        case 'soldier: 76':
-          return 'soldier-76';
-          break;
-        case 'd.va':
-          return 'dva';
-          break;
-        default:
-          return $name;
-          break;
-      }
+    private function checkHeroName($name)
+    {
+        switch ($name) {
+            case 'lúcio':
+                return 'lucio';
+                break;
+            case 'tobjörn':
+                return 'tobjorn';
+                break;
+            case 'soldier: 76':
+                return 'soldier-76';
+                break;
+            case 'd.va':
+                return 'dva';
+                break;
+            default:
+                return $name;
+                break;
+        }
     }
 
-    public function getHeroIconWithRank($rank) {
-      if ($this->{'hero' . $rank} === '')
-        return "https://blzgdapipro-a.akamaihd.net/hero/winston/ability-primal-rage/icon-ability.png";
-      return "https://blzgdapipro-a.akamaihd.net/hero/" . self::checkHeroName(strtolower(strstr($this->{'hero' . $rank} , '-', true))) . "/icon-right-menu.png";
+    public function getHeroIconWithRank($rank)
+    {
+        if ($this->{'hero' . $rank} === '') {
+            return "https://blzgdapipro-a.akamaihd.net/hero/winston/ability-primal-rage/icon-ability.png";
+        }
+        return "https://blzgdapipro-a.akamaihd.net/hero/"
+                . self::checkHeroName(strtolower(strstr($this->{'hero' . $rank}, '-', true)))
+                . "/icon-right-menu.png";
     }
 }

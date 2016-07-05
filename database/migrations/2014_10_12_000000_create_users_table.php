@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('gametag');
             $table->integer('level');
+            $table->string('rank_url');
             $table->integer('admin')->default(0);
             $table->string('picture')->default('https://thekrehlife.files.wordpress.com/2015/12/image1.jpeg?w=620');
             $table->string('hero1');
