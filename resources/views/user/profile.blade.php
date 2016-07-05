@@ -26,7 +26,7 @@
 
       <div class="form-group container"style="padding-bottom: 5px; width: 100%;">
         <div class="profile-edit-text col-sm-3" for="gametag" style="padding-right: 20px; text-align: right;" >BattleTag</div>
-        <input type="text" class="form-control col-sm-9" name="gametag" id="gametag" value="{{ $user['gametag'] }}" @if($user['id'] !== Auth::user()->id) disabled="disabled" @endif>
+        <input type="text" class="form-control col-sm-9" name="gametag" id="gametag" value="{{ $user['gametag'] }}" @if($user['id'] !== Auth::user()->id) disabled="disabled" @endif pattern="([A-Za-z0-9]*)#([0-9]{4})" title="For example: UserName#1234">
           @if ($errors->has('gametag'))
               <span class="help-block">
                   <strong>{{ $errors->first('gametag') }}</strong>

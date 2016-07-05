@@ -89,13 +89,12 @@ class UserController extends Controller
             if (!$picture->isValid())
                 return redirect()->route('showProfile', ['id' => $id])->withErrors($validator)->withInput();
 
-            $randStr = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 5)), 0, 5);
-            $picture->move(public_path('images/profile'), $user['name'].$randStr);
-            $fields['picture'] = url('/images/profile', $user['name'].$randStr);
+            $randStr = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 8)), 0, 8);
+            $picture->move(public_path('images/profile'), 'img_'.$randStr);
+            $fields['picture'] = url('/images/profile', 'img_'.$randStr);
         }
 
         if ($newImage) {
-          //http://localhost:8888/OverSquad/public/images/profile/Louis
           $imgpath = explode('http://localhost:8888/OverSquad/public/', $user['picture']);
           unlink($imgpath[1]);
         }
