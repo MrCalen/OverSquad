@@ -135,7 +135,7 @@
                 <div class="col-xs-8">
                     <ul class="chat-list">
                         <li ng-repeat="message in messages track by $index">
-                            <i>@{{ message.author_name }}</i>
+                            <b>@{{ message.author_name }}</b>
                             <span ng-if="message.bot" ng-bind-html="message.content"></span>
                             <span ng-if="!message.bot" ng-bind="message.content "></span>
                         </li>
