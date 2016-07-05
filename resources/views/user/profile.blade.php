@@ -3,42 +3,74 @@
 @section('css')
     @parent
     <link rel="stylesheet" href="{{ URL::asset('css/profile.css') }}"/>
+    <link rel="stylesheet" href="{{ URL::asset('css/findplayerLoader.css') }}"/>
 @endsection
 
 @section('body')
     @parent
-    <div class="panel panel-default" id="profil-panel">
-        <div class="panel-heading">
-            <div class="panel-title">
-
-                <strong>{{ $user->name }}</strong>'s profile
-
-                @if($user['id'] == Auth::user()->id)
-                <a class="pull-right" href="{{ URL::route('editProfile', ['id' => $user['id'] ]) }}">
-                    <div class="glyphicon glyphicon-edit" id="profil-edit-icon"></div>
-                </a>
-                <div class="clearfix"></div>
-                @endif
-
-            </div>
-        </div>
-        <div class="panel-body">
-
-            <div class="media">
-                <div class="media-left media-middle">
-                    <img class="media-object" width="64" height="64" src="{{ $user['picture'] }}" alt="{{ $user['name'] }}" />
-                </div>
-                <div class="media-body">
-
-                    <strong>Name</strong>: {{ $user['name'] }}<br />
-                    <strong>Tag</strong>: {{ $user['gametag'] }}<br />
-                    <strong>Level</strong>: {{ $user['level'] }}<br />
-
-                </div>
-            </div>
-
-        </div>
+    <div class="text-center overwatch-title" style="width:66%; margin-top:0px;">
+      {{ $user->name }}'s profile
     </div>
+
+    <form class="form-inline" action="{{ URL::route('editProfile', ['id' => Auth::user()->id ]) }}" method="POST" enctype="multipart/form-data" id="edit_info">
+      {{ csrf_field() }}
+      <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }} container" style="padding-bottom: 5px; width: 100%;">
+        <div class="profile-edit-text col-sm-3" for="name" style="padding-right: 20px; text-align: right;" >Name</div>
+        <input type="text" class="form-control col-sm-9" name="name" id="name" value="{{ $user['name'] }}" @if($user['id'] !== Auth::user()->id) disabled="disabled" @endif>
+          @if ($errors->has('name'))
+              <span class="help-block">
+                  <strong>{{ $errors->first('name') }}</strong>
+              </span>
+          @endif
+      </div>
+
+      <div class="form-group container"style="padding-bottom: 5px; width: 100%;">
+        <div class="profile-edit-text col-sm-3" for="gametag" style="padding-right: 20px; text-align: right;" >BattleTag</div>
+        <input type="text" class="form-control col-sm-9" name="gametag" id="gametag" value="{{ $user['gametag'] }}" @if($user['id'] !== Auth::user()->id) disabled="disabled" @endif>
+          @if ($errors->has('gametag'))
+              <span class="help-block">
+                  <strong>{{ $errors->first('gametag') }}</strong>
+              </span>
+          @endif
+      </div>
+
+      <div class="form-group container"style="padding-bottom: 5px; width: 100%;">
+        <div class="profile-edit-text col-sm-3" for="email" style="padding-right: 20px; text-align: right;" >Email</div>
+        <input type="text" class="form-control col-sm-9" name="email" id="email" value="{{ $user['email'] }}" disabled="disabled">
+        @if ($errors->has('email'))
+            <span class="help-block">
+                <strong>{{ $errors->first('email') }}</strong>
+            </span>
+        @endif
+      </div>
+
+      <div class="form-group container"style="padding-bottom: 5px; width: 100%;">
+        <div class="profile-edit-text col-sm-3" for="level" style="padding-right: 20px; text-align: right;" >Level</div>
+        <input type="text" class="form-control col-sm-9" name="level" id="level" value="{{ $user['level'] }}" disabled="disabled">
+        @if ($errors->has('level'))
+            <span class="help-block">
+                <strong>{{ $errors->first('level') }}</strong>
+            </span>
+        @endif
+      </div>
+
+      @if($user['id'] == Auth::user()->id)
+      <div class="form-group container"style="padding-bottom: 5px; width: 100%;">
+        <div class="profile-edit-text col-sm-3" for="exampleInputName2" style="padding-right: 20px; text-align: right;" >Image</div>
+        <input type="file" class="form-control col-sm-9" name="picture" id="picture">
+        @if ($errors->has('picture'))
+            <span class="help-block">
+                <strong>{{ $errors->first('picture') }}</strong>
+            </span>
+        @endif
+      </div>
+      <div style="padding-bottom:20px; padding:15px;">
+        <button type="submit" class="btn btn-primary col-md-offset-2 col-md-5" id="saveEditButton">Save modifications</button>
+        <div class="cssload-loader col-md-offset-4 col-sm-offset-12" style="visibility: hidden;" id="loadingEditButton">Searching/Saving your profile</div>
+      </div>
+
+      @endif
+    </form>
 
     <div class="row">
 
@@ -119,8 +151,8 @@
               <div class="container-fluid game panel panel-default">
                   <div class="row">
                   @foreach($game->players as $player)
-                      <div class="col-md-2 text-center">
-                          <img class="img img-responsive user-hover" src="{{ $player->picture }}" id="{{ $player->id }}"/>
+                      <div class="col-md-2 text-center" style="position: relative;">
+                          <img class="img img-responsive user-hover" src="{{ $player->picture }}" id="{{ $player->id }}" />
                       </div>
                   @endforeach
                   </div>
@@ -128,16 +160,16 @@
                   <div class="row">
                       @foreach($game->players as $player)
                           <div class="col-md-2 text-center">
-                                <a href="{{ URL::route('showProfile', ['id' => $player->id ]) }}" class="profile-btn btn @if($user['id'] === $player->id) btn-primary @else btn-warning @endif" >
-                                    {{ $player->gametag }}
-                                </a>
+                                  <a href="{{ URL::route('showProfile', ['id' => $player->id ]) }}" class="btn @if($user['id'] === $player->id) btn-primary @else btn-warning @endif" style="width: 100%; overflow-x: ellipsis">
+                                    <div class="profile-btn">{{ $player->gametag }}</div>
+                                  </a>
                           </div>
                       @endforeach
                   </div>
               </div>
               <br>
           @empty
-              <div class="overwatch-title text-center" style="width:66%; font-size: 60px; margin-top:0px;">No games found</div>
+              <div class="overwatch-title text-center" style="font-size: 60px; margin-top:0px;">No games found</div>
           @endforelse
           <div class="row">
       @endif
@@ -149,4 +181,12 @@
 
 @section('scripts')
   @parent
+
+  <script>
+  $('#edit_info').submit(function() {
+    $('#loadingEditButton').css('visibility', 'visible');
+    $('#saveEditButton').css('visibility', 'hidden');
+    return true;
+  });
+  </script>
 @endsection

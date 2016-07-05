@@ -10,9 +10,9 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/', 'HomeController@home');
 
-    Route::get('/user/{id}', 'UserController@showProfile')->name('showProfile');
-
     Route::group(['middleware' => 'auth'], function () {
+
+        Route::get('/user/{id}', 'UserController@showProfile')->name('showProfile');
         Route::get('/user/{id}/edit', 'UserController@editProfile')->name('editProfile');
         Route::post('/user/{id}/edit', 'UserController@editProfilePost')->name('editProfile');
 

@@ -37,3 +37,20 @@
   z-index: 1 !important;
   position: relative;
 }
+
+.profile-btn:hover span {
+    background-color: white;
+    display: inline-block;
+    padding-right: 5px;
+}
+
+.profile-edit-text {
+  font-size: 22px;
+  color: #1F3D44;
+  font-family: Overwatch;
+  text-decoration: none;
+}
+
+.profile-edit-text::first-letter {
+  font-size: 25px;
+}

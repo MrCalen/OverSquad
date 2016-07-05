@@ -28,6 +28,18 @@ class User extends Authenticatable
         'created_at', 'updated_at',
     ];
 
+    public function refreshPlayerLevelAndHeroes() {
+        $level = $this->getLevel();
+        $this->level = $level;
+        $hero1 = $this->getHeroWithRank(0);
+        $hero2 = $this->getHeroWithRank(1);
+        $hero3 = $this->getHeroWithRank(2);
+        $this->hero1 = $hero1;
+        $this->hero2 = $hero2;
+        $this->hero3 = $hero3;
+        $this->save();
+      }
+
     public function getLevel()
     {
         return self::getLevelFromGametag($this->gametag);

@@ -74,22 +74,37 @@ class UserController extends Controller
         if (isset($fields['gametag'])) {
             $fields['gametag'] = preg_replace('/([A-Za-z0-9]*)-([0-9]{4})/', '${1}#${2}', $fields['gametag']);
         }
+        $gametagModified = true;
+        if ($fields['gametag'] == $user['gametag'])
+          $gametagModified = false;
 
         $validator = $this->validator($fields);
         if ($validator->fails())
-            return redirect()->route('editProfile', ['id' => $id])->withErrors($validator)->withInput();
+            return redirect()->route('showProfile', ['id' => $id])->withErrors($validator)->withInput();
 
+        $newImage = false;
         if ($request->hasFile('picture')) {
+            $newImage = true;
             $picture = $request->file('picture');
             if (!$picture->isValid())
-                return redirect()->route('editProfile', ['id' => $id])->withErrors($validator)->withInput();
+                return redirect()->route('showProfile', ['id' => $id])->withErrors($validator)->withInput();
 
-            $picture->move(public_path('images/profile'), $user['name']);
-            $fields['picture'] = url('/images/profile', $user['name']);
+            $randStr = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 5)), 0, 5);
+            $picture->move(public_path('images/profile'), $user['name'].$randStr);
+            $fields['picture'] = url('/images/profile', $user['name'].$randStr);
         }
 
+        if ($newImage) {
+          //http://localhost:8888/OverSquad/public/images/profile/Louis
+          $imgpath = explode('http://localhost:8888/OverSquad/public/', $user['picture']);
+          unlink($imgpath[1]);
+        }
         $user->update($fields);
-        return redirect()->route('showProfile', ['user' => $user,]);
+
+        if ($gametagModified)
+          $user->refreshPlayerLevelAndHeroes();
+        return redirect()->route('showProfile', ['id' => $id]);
+        
     }
 
     private function getLastTenGames($id)
