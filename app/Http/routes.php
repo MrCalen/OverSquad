@@ -1,24 +1,27 @@
 <?php
 
-Route::get('/login', 'Auth\AuthController@getLogin');
-Route::post('/login', 'Auth\AuthController@postLogin');
-Route::get('/logout', 'HomeController@logout');
+Route::group(['middleware' => 'web'], function () {
 
-Route::post('/register', 'Auth\AuthController@postRegister');
+    Route::get('/login', 'Auth\AuthController@getLogin');
+    Route::post('/login', 'Auth\AuthController@postLogin');
+    Route::get('/logout', 'HomeController@logout');
 
-Route::get('/', 'HomeController@home');
+    Route::post('/register', 'Auth\AuthController@postRegister');
 
-Route::get('/user/{id}', 'UserController@showProfile')->name('showProfile');
+    Route::get('/', 'HomeController@home');
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/user/{id}/edit', 'UserController@editProfile')->name('editProfile');
-    Route::post('/user/{id}/edit', 'UserController@editProfilePost')->name('editProfile');
+    Route::get('/user/{id}', 'UserController@showProfile')->name('showProfile');
 
-    Route::get('/home', 'HomeController@index');
-    Route::get('/game', 'GameController@index');
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('/user/{id}/edit', 'UserController@editProfile')->name('editProfile');
+        Route::post('/user/{id}/edit', 'UserController@editProfilePost')->name('editProfile');
 
-    Route::group(['middleware' => 'admin'], function () {
-        Route::get('/admin', 'AdminController@index')->name('admin');
+        Route::get('/home', 'HomeController@index');
+        Route::get('/game', 'GameController@index');
+
+        Route::group(['middleware' => 'admin'], function () {
+            Route::get('/admin', 'AdminController@index')->name('admin');
+        });
+
     });
-
 });

@@ -40,6 +40,7 @@ class UserController extends Controller
             'user' => $user,
             'games' => $this->getLastTenGames($id),
         ];
+
         return view('user.profile', $data);
     }
 
@@ -88,7 +89,7 @@ class UserController extends Controller
         }
 
         $user->update($fields);
-        return redirect()->route('showProfile', ['id' => $id]);
+        return redirect()->route('showProfile', ['user' => $user,]);
     }
 
     private function getLastTenGames($id)
@@ -102,8 +103,7 @@ class UserController extends Controller
                 ->orderBy('id', 'desc')
                 ->take(10)
                 ->get();
-        foreach ($games as $game)
-        {
+        foreach ($games as $game) {
             array_push($game->players, User::findOrFail($game->p1));
             array_push($game->players, User::findOrFail($game->p2));
             array_push($game->players, User::findOrFail($game->p3));
