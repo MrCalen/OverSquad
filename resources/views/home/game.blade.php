@@ -136,7 +136,8 @@
                     <ul class="chat-list">
                         <li ng-repeat="message in messages track by $index">
                             <i>@{{ message.author_name }}</i>
-                            @{{ message.content }}
+                            <span ng-if="message.bot" ng-bind-html="message.content"></span>
+                            <span ng-if="!message.bot" ng-bind="message.content "></span>
                         </li>
                     </ul>
                     <form id="msg" ng-submit="newMessage(currentMessage); currentMessage = ''"
@@ -155,7 +156,7 @@
                     <div>
                         <h4>Currently in game</h4>
                         <ul class="list-group">
-                            <li class="user-hover list-group-item list-group-item-warning" ng-repeat="player in players" id="@{{ player.user.id }}">
+                            <li class="user-hover list-group-item" ng-class='{ "list-group-item-success" : roomStatus, "list-group-item-warning" : !roomStatus  }' ng-repeat="player in players" id="@{{ player.user.id }}">
                                 <i>@{{ player.user.name }}</i>
                             </li>
                         </ul>

@@ -10,12 +10,19 @@ String.format = function () {
 };
 
 angular.module('OverSquad', [])
-    .controller('OverSquadController', function ($scope, $http, $timeout) {
+    .controller('OverSquadController', function ($scope, $http, $timeout, $sce) {
         $scope.step = 0;
         $scope.players = [];
         $scope.roomStatus = false;
         $scope.messages = [];
         $scope.roles = [];
+        $scope.const_roles = {
+            1: 'attack',
+            2: 'tank',
+            3: 'support',
+            4: 'defense'
+        };
+
 
         $scope.addRole = function (value) {
             if ($scope.roles.find(function (elt) {
@@ -32,12 +39,19 @@ angular.module('OverSquad', [])
             $scope.roles.splice(index, 1);
         };
 
-
-        $scope.const_roles = {
-            1: 'attack',
-            2: 'tank',
-            3: 'support',
-            4: 'defense'
+        $scope.endWaiting = function () {
+            if (!$scope.roomStatus) return;
+            var str = "<h4>Every user is ready ! Here is the list of GameTag:</h4><ul>";
+            $scope.players.forEach(function (player) {
+                str += "<li>" + player.user.name + ' : <b>' + player.user.gametag + "</b></li>";
+            });
+            str += "</ul>";
+            $scope.messages.push({
+                author_name: 'OverSquad Bot',
+                content: $sce.trustAsHtml(str),
+                bot: true
+            });
+            $scope.$apply();
         };
 
         $scope.start = function () {
@@ -71,6 +85,9 @@ angular.module('OverSquad', [])
                 if (message.type === 'users') {
                     $scope.players = message.players;
                     $scope.roomStatus = message.status;
+                    if ($scope.roomStatus) {
+                        $scope.endWaiting();
+                    }
                     $scope.$apply();
                 } else if (message.type === 'message') {
                     $scope.messages.push(message);
@@ -146,34 +163,4 @@ angular.module('OverSquad', [])
 
         };
 
-    }).directive('choiceList', function () {
-
-    return {
-        scope: {
-            choiceList: '='
-        },
-        link: function (scope, element, attrs) {
-            var toUpdate;
-            var startIndex = -1;
-            scope.$watch("scope.choiceList", function () {
-                toUpdate = angular.copy(scope.choiceList);
-            });
-
-            $(element[0]).sortable({
-                items: 'li',
-                start: function (event, ui) {
-                    startIndex = ($(ui.item).index());
-                },
-                stop: function (event, ui) {
-                    var newIndex = ($(ui.item).index());
-                    var toMove = toUpdate[startIndex];
-                    toUpdate.splice(startIndex, 1);
-                    toUpdate.splice(newIndex, 0, toMove);
-                    scope.$apply(scope.model);
-                },
-                axis: 'y'
-            })
-        }
-    }
-})
-;
+    });
