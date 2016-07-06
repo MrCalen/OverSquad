@@ -96,15 +96,20 @@ class UserController extends Controller
         }
 
         if ($newImage) {
-          $imgpath = explode('http://localhost:8888/OverSquad/public/', $user['picture']);
-          unlink($imgpath[1]);
+            $oldImageName = explode('/', $user['picture']);
+            if ($oldImageName != 'default_profile.jpg') {
+                $oldImageName = $oldImageName[count($oldImageName) - 1];
+                $oldImagePath = public_path('images/profile/' . $oldImageName);
+                if (file_exists($oldImagePath))
+                    unlink($oldImagePath);
+            }
         }
+
         $user->update($fields);
 
         if ($gametagModified)
           $user->refreshPlayerLevelAndHeroes();
         return redirect()->route('showProfile', ['id' => $id]);
-        
     }
 
     private function getLastTenGames($id)
