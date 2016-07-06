@@ -84,6 +84,7 @@ ADD docker-config/start.sh /start.sh
 RUN chmod 755 /start.sh
 
 COPY docker-config/.env /var/www
+RUN mkdir -p /var/www/public/images/profile && chmod -R 777 /var/www/public/images
 
 EXPOSE 443 80
 
