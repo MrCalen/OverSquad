@@ -83,6 +83,8 @@ RUN chmod 777 -R /var/www/storage /var/www/bootstrap/cache
 ADD docker-config/start.sh /start.sh
 RUN chmod 755 /start.sh
 
+COPY docker-config/.env /var/www
+
 EXPOSE 443 80
 
 CMD ["/start.sh"]
