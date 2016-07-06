@@ -139,10 +139,10 @@
     </div>
 
     <div class="row">
+      <hr class="col-md-8">
       <div class="col-md-8">
         @if(count($games) !== 0 && $user['id'] == Auth::user()->id)
-            <div class="overwatch-title text-center" style="font-size: 60px;">Last games</div>
-            <hr>
+          <div class="overwatch-title text-center" style="font-size: 60px; color: white;">Last games</div>
         @endif
       </div>
       <div class="col-md-8">
@@ -171,9 +171,9 @@
                       @endforeach
                   </div>
               </div>
-              <hr>
+              <br>
           @empty
-              <div class="overwatch-title text-center" style="width:66%; margin-top:0px;">No games found</div>
+              <div class="overwatch-title text-center" style="font-size: 60px; margin-top:0px;">No games found</div>
           @endforelse
           <div class="row">
       @endif
