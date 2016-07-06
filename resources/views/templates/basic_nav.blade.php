@@ -16,17 +16,20 @@
         </div>
         <ul style="list-style-type: none" class="img-pad">
             <li>
-                <img class="img img-responsive" src="{{ Auth::user()->picture }}"/>
+                <img class="img img-responsive" src="{{ Auth::user()->picture }}"/><span></span>
+                @if (Auth::user()->rank_url)
+                    <img src="{{ Auth::user()->rank_url }}"/>
+                @endif
             </li>
+
             <li class="text-center white">
                 <h2>{{ Auth::user()->name }}</h2>
             </li>
             <li class="text-center white">
                 <h4>"{{ Auth::user()->gametag }}"</h4>
                 @if (Auth::user()->level === 0)
-                    <div class="" style="font-size: 15px; color: red;">Your gametag is invalid</div>
+                    <div style="font-size: 15px; color: red;">Your gametag is invalid</div>
                 @endif
-
             </li>
 
             <li class="text-center white">

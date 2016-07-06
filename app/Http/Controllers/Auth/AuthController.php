@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -74,11 +75,11 @@ class AuthController extends Controller
             'gametag' => $gametag,
             'level' => User::getLevelFromGametag($data['gametag'], $dom),
             'picture' => url('images/default_profile.jpg'),
-            'rank_url' => User::getRank($dom),
             'hero1' => User::getHeroWithRankFromGametag(0, $gametag, $dom),
             'hero2' => User::getHeroWithRankFromGametag(1, $gametag, $dom),
             'hero3' => User::getHeroWithRankFromGametag(2, $gametag, $dom),
         ];
+        $user->rank_url = User::getRank($dom);
 
         return User::create($user);
     }

@@ -40,6 +40,7 @@
                                     </div>
                                     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                         <input type="password" name="password" required id="password" tabindex="2"
+                                               pattern="(.{6,})" title="At least 6 characters"
                                                class="form-control" placeholder="Password">
                                         @if ($errors->has('password'))
                                             <span class="help-block">
@@ -90,6 +91,7 @@
 
                                     <div class="form-group{{ $errors->has('password-register') ? ' has-error' : '' }}">
                                         <input type="password" name="password-register" required id="password"
+                                               pattern="(.{6,})" title="At least 6 characters"
                                                tabindex="2" class="form-control" placeholder="Password">
                                         @if ($errors->has('password-register'))
                                             <span class="help-block">
@@ -101,6 +103,7 @@
                                     <div class="form-group{{ $errors->has('password-register_confirmation') ? ' has-error' : '' }}">
                                         <input type="password" name="password-register_confirmation" required
                                                id="password-register_confirmation" tabindex="2" class="form-control"
+                                               pattern="(.{6,})" title="At least 6 characters"
                                                placeholder="Confirm Password">
                                         @if ($errors->has('password-register_confirmation'))
                                             <span class="help-block">

@@ -65,7 +65,12 @@ class User extends Authenticatable
         $tag = $rank[0]->tag;
         $rank = $tag->getAttributes();
         $rank = $rank['style']['value'];
-        return $rank;
+        $output = [];
+        preg_match("/(?:.*)(https?.*)\)/i", $rank, $output);
+        if (!count($output)) {
+            return null;
+        }
+        return $output[1];
     }
 
     public function getLevel()

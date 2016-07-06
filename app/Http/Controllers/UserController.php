@@ -103,8 +103,9 @@ class UserController extends Controller
             if ($oldImageName != 'default_profile.jpg') {
                 $oldImageName = $oldImageName[count($oldImageName) - 1];
                 $oldImagePath = public_path('images/profile/' . $oldImageName);
-                if (file_exists($oldImagePath))
+                if (file_exists($oldImagePath)) {
                     unlink($oldImagePath);
+                }
             }
         }
 
@@ -128,6 +129,7 @@ class UserController extends Controller
             ->orderBy('id', 'desc')
             ->take(10)
             ->get();
+
         foreach ($games as $game) {
             array_push($game->players, User::findOrFail($game->p1));
             array_push($game->players, User::findOrFail($game->p2));
