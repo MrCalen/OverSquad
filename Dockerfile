@@ -76,7 +76,7 @@ find /etc/php5/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {}
 
 COPY docker-config/my.cnf /etc/mysql/my.cnf
 
-ADD OverSquad /var/www/
+ADD . /var/www/
 RUN cd /var/www && composer install
 RUN chmod 777 -R /var/www/storage /var/www/bootstrap/cache
 
