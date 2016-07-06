@@ -13,6 +13,7 @@ class Room implements \JsonSerializable
 {
     private $assoc;
     private $id;
+    private $locked;
 
     private static $count = 0;
 
@@ -24,6 +25,7 @@ class Room implements \JsonSerializable
         }
 
         $this->id = self::$count++;
+        $this->locked = false;
     }
 
     /**
@@ -33,6 +35,10 @@ class Room implements \JsonSerializable
      */
     public function playerJoin($connection, $userRoles)
     {
+        if ($this->locked) {
+            return null;
+        }
+
         $missingRoles = $this->missingRoles();
         foreach ($userRoles as $userRole) {
             if (in_array(Roles::$ROLES[$userRole], $missingRoles)) {
@@ -61,7 +67,16 @@ class Room implements \JsonSerializable
      */
     public function checkFull()
     {
-        return count($this->missingRoles()) === 0;
+        $full = count($this->missingRoles()) === 0;
+        if ($full) {
+            $this->locked = $full;
+        }
+        return $full;
+    }
+
+    public function isLocked()
+    {
+        return $this->locked;
     }
 
     /**

@@ -14,6 +14,7 @@ angular.module('OverSquad', [])
         $scope.step = 0;
         $scope.players = [];
         $scope.roomStatus = false;
+        $scope.roomLocked = false;
         $scope.messages = [];
         $scope.roles = [];
         $scope.const_roles = {
@@ -85,6 +86,7 @@ angular.module('OverSquad', [])
                 if (message.type === 'users') {
                     $scope.players = message.players;
                     $scope.roomStatus = message.status;
+                    $scope.roomLocked = message.locked;
                     if ($scope.roomStatus) {
                         $scope.endWaiting();
                     }

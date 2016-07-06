@@ -126,9 +126,12 @@
         </div>
         <div ng-show="step == 1" >
             <div class="row theme">
-                <div ng-if="!roomStatus">
+                <div ng-if="!roomStatus && !roomLocked">
                     <img src="http://samherbert.net/svg-loaders/svg-loaders/rings.svg">
                     <i class="white">Searching for <b ng-bind="6 - players.length"></b> other friends</i>
+                </div>
+                <div ng-if="roomLocked" style="padding: 10px">
+                    <i class="fa white fa-lock fa-fw"></i><i class="white">Room locked</i>
                 </div>
             </div>
             <div class="container-fluid row chat-box">
@@ -156,7 +159,7 @@
                     <div>
                         <h4>Currently in game</h4>
                         <ul class="list-group">
-                            <li class="user-hover list-group-item" ng-class='{ "list-group-item-success" : roomStatus, "list-group-item-warning" : !roomStatus  }' ng-repeat="player in players" id="@{{ player.user.id }}">
+                            <li class="user-hover list-group-item" ng-class='{ "list-group-item-success" : roomStatus || roomLocked, "list-group-item-warning" : !roomStatus && !roomLocked  }' ng-repeat="player in players" id="@{{ player.user.id }}">
                                 <i>@{{ player.user.name }}</i>
                             </li>
                         </ul>

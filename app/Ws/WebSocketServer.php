@@ -111,6 +111,7 @@ class WebSocketServer implements MessageComponentInterface
             'type' => 'users',
             'players' => $room,
             'status' => $room->checkFull(),
+            'locked' => $room->isLocked(),
         ]);
     }
 
