@@ -3,6 +3,7 @@
 @section('css')
     @parent
     <link rel="stylesheet" href="{{ URL::asset('css/login.css') }}"/>
+    <link rel="stylesheet" href="{{ URL::asset('css/findplayerLoader.css') }}"/>
 @endsection
 
 @section('body')
@@ -11,6 +12,9 @@
         <div class="row">
             <div class="col-md-6" style="margin-top : 60px;">
 
+              @if ($errors->any())
+                <a> YA DES ERREURS D'ENCULE </a>
+              @endif
                 <div class="panel panel-login">
                     <div class="panel-heading">
                         <div class="row">
@@ -114,6 +118,7 @@
 
                                     <div class="form-group">
                                         <div class="col-sm-6 col-sm-offset-3">
+                                          <div class="cssload-loader col-md-12 text-center col-sm-offset-6" style="visibility: hidden; margin-top:25px; margin-left:120px" id="loadingRegisterButton">Creation...</div>
                                             <input type="submit" name="register-submit" id="register-submit"
                                                    tabindex="4" class="form-control btn btn-signup"
                                                    value="Register Now">
@@ -149,6 +154,12 @@
                 $('#login-form-link').removeClass('active');
                 $(this).addClass('active');
                 e.preventDefault();
+            });
+
+            $('#register-submit').submit(function() {
+              $('#loadingRegisterButton').css('visibility', 'visible');
+              $('#register-submit').css('visibility', 'hidden');
+              return true;
             });
 
         });
