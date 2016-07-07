@@ -136,7 +136,6 @@
     @parent
     <script>
         $(function () {
-
             $('#login-form-link').click(function (e) {
                 $("#login-form").delay(100).fadeIn(100);
                 $("#register-form").fadeOut(100);
@@ -152,13 +151,17 @@
                 $(this).addClass('active');
                 e.preventDefault();
             });
+        });
 
-            $('#register-submit').submit(function() {
-              $('#loadingRegisterButton').css('visibility', 'visible');
-              $('#register-submit').css('visibility', 'hidden');
-              return true;
-            });
+        $(function () {
+
+          $('#register-form').submit(function() {
+            $('#loadingRegisterButton').css('visibility', 'visible');
+            $('#register-submit').css('visibility', 'hidden');
+            return true;
+          });
 
         });
+
     </script>
 @endsection
