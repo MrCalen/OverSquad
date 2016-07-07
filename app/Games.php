@@ -2,14 +2,14 @@
 
 namespace App;
 
-use Eloquent;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Games
  * @package App
  * Eloquent model representing games
  */
-class Games extends Eloquent
+class Games extends Model
 {
     protected $table = 'games';
 }

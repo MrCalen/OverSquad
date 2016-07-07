@@ -172,4 +172,28 @@ class RoomTest extends TestCase
         assert($room->playerJoin($conns[6], [Roles::ATTACK]) === null);
     }
 
+    public function testIsLocked()
+    {
+        $room = new Room();
+
+        $this->assertTrue($room->isLocked() === false);
+        $conns = array();
+        for ($i = 0; $i < 7; $i++)
+        {
+            $conn = new Connection(null);
+            $conn->setUser(new User());
+            array_push($conns, $conn);
+        }
+        $room->playerJoin($conns[0], [Roles::ATTACK]);
+        $room->playerJoin($conns[1], [Roles::TANK]);
+        $room->playerJoin($conns[2], [Roles::SUPPORT]);
+        $room->playerJoin($conns[3], [Roles::DEFENSE]);
+        $room->playerJoin($conns[4], [Roles::ATTACK]);
+        $room->playerJoin($conns[5], [Roles::ATTACK]);
+        $room->checkFull();
+        $this->assertTrue($room->isLocked());
+        assert($room->playerJoin($conns[6], [Roles::ATTACK]) === null);
+
+    }
+
 }
