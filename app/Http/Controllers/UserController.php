@@ -6,9 +6,11 @@ use App\Models\Game;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Log;
 use Session;
 use Validator;
+
 
 class UserController extends Controller
 {
@@ -20,7 +22,7 @@ class UserController extends Controller
      */
     protected function validator(array $data)
     {
-        return validator()->make($data, [
+        return Validator::make($data, [
             'name' => 'required|max:255',
             'password' => 'min:6|confirmed',
             'gametag' => array ('Regex:/([A-Za-z]*)#([0-9]{4})/'),
@@ -115,6 +117,22 @@ class UserController extends Controller
             $user->refreshPlayerLevelAndHeroes();
         }
 
+        return redirect()->route('showProfile', ['id' => $id]);
+    }
+
+    public function editPasswordPost(Request $request, $id)
+    {
+        $fields = $request->only('password', 'password_confirmation');
+        $user = User::findOrFail($id);
+        $fields['name'] = $user->name;
+
+        $validator = $this->validator($fields);
+        if ($validator->fails()) {
+            //dd($validator->errors());
+            return Redirect::back()->withErrors($validator);
+        }
+        $fields['password'] = bcrypt($fields['password']);
+        $user->update($fields);
         return redirect()->route('showProfile', ['id' => $id]);
     }
 

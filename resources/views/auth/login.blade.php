@@ -12,9 +12,6 @@
         <div class="row">
             <div class="col-md-6" style="margin-top : 60px;">
 
-              @if ($errors->any())
-                <a> YA DES ERREURS D'ENCULE </a>
-              @endif
                 <div class="panel panel-login">
                     <div class="panel-heading">
                         <div class="row">

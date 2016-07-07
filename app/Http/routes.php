@@ -15,6 +15,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/user/{id}', 'UserController@showProfile')->name('showProfile');
         Route::get('/user/{id}/edit', 'UserController@editProfile')->name('editProfile');
         Route::post('/user/{id}/edit', 'UserController@editProfilePost')->name('editProfile');
+        Route::post('/user/{id}/editpassword', 'UserController@editPasswordPost')->name('editPassword');
 
         Route::get('/home', 'HomeController@index');
         Route::get('/game', 'GameController@index');

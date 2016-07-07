@@ -10,6 +10,9 @@
     @parent
     <div class="text-center overwatch-title col-md-8">
       {{ $user->name }}'s profile
+      @if ($errors->any())
+        <a> YA DES erreurs c'est lourd </a>
+      @endif
     </div>
 
     <form class="form-inline" action="{{ URL::route('editProfile', ['id' => Auth::user()->id ]) }}" method="POST" enctype="multipart/form-data" id="edit_info">
@@ -56,7 +59,7 @@
 
       @if($user['id'] == Auth::user()->id)
       <div class="form-group container"style="padding-bottom: 5px; width: 100%;">
-        <div class="profile-edit-text col-sm-3" for="exampleInputName2" style="padding-right: 20px; text-align: right;" >Image</div>
+        <div class="profile-edit-text col-sm-3" for="picture" style="padding-right: 20px; text-align: right;" >Image</div>
         <input type="file" class="form-control col-sm-9" name="picture" id="picture">
         @if ($errors->has('picture'))
             <span class="help-block">
@@ -68,9 +71,38 @@
         <button type="submit" class="btn btn-primary btn-oversquad col-md-offset-3 col-md-3" id="saveEditButton">Save modifications</button>
         <div class="cssload-loader col-md-offset-4 col-sm-offset-12" style="visibility: hidden;" id="loadingEditButton">Searching/Saving your profile</div>
       </div>
+      </form>
+      <hr class="col-md-3 col-md-offset-3"/>
+
+      <form class="form-inline" action="{{ URL::route('editPassword', ['id' => Auth::user()->id ]) }}" method="POST" enctype="multipart/form-data" id="edit_info">
+        {{ csrf_field() }}
+        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }} container" style="padding-bottom: 5px; width: 100%;">
+          <div class="profile-edit-text col-sm-3" for="password" style="padding-right: 20px; text-align: right;" >New Password</div>
+          <input type="password" class="form-control col-sm-9" name="password" id="password" placeholder="New password" required>
+            @if ($errors->has('password'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('password') }}</strong>
+                </span>
+            @endif
+        </div>
+
+        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }} container" style="padding-bottom: 5px; width: 100%;">
+          <div class="profile-edit-text col-sm-3" for="password_confirmation" style="padding-right: 20px; text-align: right;" ></div>
+          <input type="password" class="form-control col-sm-9" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password" required>
+            @if ($errors->has('password_confirmation'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('password_confirmation') }}</strong>
+                </span>
+            @endif
+        </div>
+
+        <div style="padding-bottom:20px; padding:15px;">
+          <button type="submit" class="btn btn-primary btn-oversquad col-md-offset-3 col-md-3" id="saveEditButton">Save new password</button>
+          <div class="cssload-loader col-md-offset-4 col-sm-offset-12" style="visibility: hidden;" id="loadingEditButton">Saving</div>
+        </div>
 
       @endif
-    </form>
+      </form>
 
     <div class="row">
 
