@@ -120,11 +120,14 @@ if [ -f "$BOOTSTRAP_FILE" ]; then
   cd /var/www && sh "$BOOTSTRAP_FILE" 
 fi
 
+echo "[i] Seeding database"
+cd /var/www && php artisan db:seed
+
+echo "[i] Running the level update"
+cd /var/www && php artisan oversquad:refresh
+
 echo "[i] Starting the websocket server"
 cd /var/www && php artisan ws:serve &
-
-echo "[i] Running the level update job"
-cd /var/www && php artisan oversquad:refresh &
 
 # Start supervisord and services
 /usr/bin/supervisord -n -c /etc/supervisord.conf
