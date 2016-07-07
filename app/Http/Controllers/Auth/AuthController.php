@@ -79,7 +79,8 @@ class AuthController extends Controller
             'hero2' => User::getHeroWithRankFromGametag(1, $gametag, $dom),
             'hero3' => User::getHeroWithRankFromGametag(2, $gametag, $dom),
         ];
-        $user->rank_url = User::getRank($dom);
+
+        $user['rank_url'] = User::getRank($dom);
 
         return User::create($user);
     }

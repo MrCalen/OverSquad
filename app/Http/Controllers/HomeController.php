@@ -9,30 +9,25 @@ use Auth;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 
+/**
+ * Class HomeController
+ * @package App\Http\Controllers
+ * HomeController handling logout and home page
+ */
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('home/home');
+        return Redirect::to('/login');
     }
 
     public function home()
     {
         if (Auth::check()) {
-            return Redirect::to('/home');
+            return Redirect::to('/user/' . Auth::user()->id);
         } else {
             return Redirect::to('/login');
         }
-    }
-
-    private function randomPlayer($id)
-    {
-        $user = new User();
-        $user->id = $id;
-
-        $connection = new Connection(null);
-        $connection->setUser($user);
-        return $connection;
     }
 
     public function logout()
