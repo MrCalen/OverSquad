@@ -123,5 +123,8 @@ fi
 echo "[i] Starting the websocket server"
 cd /var/www && php artisan w:serve &
 
+echo "[i] Running the level update job"
+cd /var/www && php artisan oversquad:refresh &
+
 # Start supervisord and services
 /usr/bin/supervisord -n -c /etc/supervisord.conf
