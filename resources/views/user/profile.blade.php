@@ -151,19 +151,23 @@
               <div class="container-fluid game panel panel-default">
                   <div class="row">
                   @foreach($game->players as $player)
+                      @if ($player)
                       <div class="col-md-2 text-center" style="position: relative;">
                           <img class="img img-responsive user-hover" src="{{ $player->picture }}" id="{{ $player->id }}" />
                       </div>
+                      @endif
                   @endforeach
                   </div>
                   <br>
                   <div class="row">
                       @foreach($game->players as $player)
+                          @if ($player)
                           <div class="col-md-2 text-center">
                                   <a href="{{ URL::route('showProfile', ['id' => $player->id ]) }}" class="btn @if($user['id'] === $player->id) btn-primary @else btn-warning @endif" style="width: 100%; overflow-x: ellipsis">
                                     <div class="profile-btn">{{ $player->gametag }}</div>
                                   </a>
                           </div>
+                          @endif
                       @endforeach
                   </div>
               </div>

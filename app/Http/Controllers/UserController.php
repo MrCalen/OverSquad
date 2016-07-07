@@ -131,12 +131,12 @@ class UserController extends Controller
             ->get();
 
         foreach ($games as $game) {
-            array_push($game->players, User::findOrFail($game->p1));
-            array_push($game->players, User::findOrFail($game->p2));
-            array_push($game->players, User::findOrFail($game->p3));
-            array_push($game->players, User::findOrFail($game->p4));
-            array_push($game->players, User::findOrFail($game->p5));
-            array_push($game->players, User::findOrFail($game->p6));
+            $game->players[] = User::find($game->p1);
+            $game->players[] = User::find($game->p2);
+            $game->players[] = User::find($game->p3);
+            $game->players[] = User::find($game->p4);
+            $game->players[] = User::find($game->p5);
+            $game->players[] = User::find($game->p6);
         }
         return $games;
     }

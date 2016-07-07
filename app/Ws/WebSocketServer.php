@@ -2,6 +2,7 @@
 
 namespace App\Ws;
 
+use App\Games;
 use App\Models\PlayersManager;
 use App\Models\Room;
 use App\User;
@@ -82,6 +83,7 @@ class WebSocketServer implements MessageComponentInterface
         if (!$user) {
             return;
         }
+
         $connection = $this->connections[$from->resourceId];
         if ($json_msg->type === 'auth') {
             $connection->setUser($user);
@@ -113,6 +115,16 @@ class WebSocketServer implements MessageComponentInterface
             'status' => $room->checkFull(),
             'locked' => $room->isLocked(),
         ]);
+        if ($room->isLocked()) {
+            $games = new Games();
+            $i = 1;
+            foreach ($room->getCurrentPlayers() as $player) {
+                $games->{ 'p' . $i} = $player->getUser()->id;
+                ++$i;
+            }
+            $games->save();
+        }
+
     }
 
     private function notifyRoomMessage(Room $room, User $user, $message)

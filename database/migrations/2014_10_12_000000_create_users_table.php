@@ -31,12 +31,13 @@ class CreateUsersTable extends Migration
 
         Schema::create('games', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('p1')->unsigned();
-            $table->integer('p2')->unsigned();
-            $table->integer('p3')->unsigned();
-            $table->integer('p4')->unsigned();
-            $table->integer('p5')->unsigned();
-            $table->integer('p6')->unsigned();
+            $table->integer('p1')->unsigned()->nullable();
+            $table->integer('p2')->unsigned()->nullable();
+            $table->integer('p3')->unsigned()->nullable();
+            $table->integer('p4')->unsigned()->nullable();
+            $table->integer('p5')->unsigned()->nullable();
+            $table->integer('p6')->unsigned()->nullable();
+            $table->timestamps();
         });
 
         Schema::table('games', function (Blueprint $table) {
