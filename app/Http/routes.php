@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'web'], function () {
+Route::group(['middlewareGroups' => 'web'], function () {
 
     Route::get('/login', 'Auth\AuthController@getLogin');
     Route::post('/login', 'Auth\AuthController@postLogin');
@@ -23,6 +23,5 @@ Route::group(['middleware' => 'web'], function () {
         Route::group(['middleware' => 'admin'], function () {
             Route::get('/admin', 'AdminController@index')->name('admin');
         });
-
     });
 });

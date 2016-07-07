@@ -128,8 +128,7 @@ class UserController extends Controller
 
         $validator = $this->validator($fields);
         if ($validator->fails()) {
-            //dd($validator->errors());
-            return Redirect::back()->withErrors($validator);
+            return redirect()->route('showProfile', ['id' => $id])->withErrors($validator);
         }
         $fields['password'] = bcrypt($fields['password']);
         $user->update($fields);

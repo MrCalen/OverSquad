@@ -10,9 +10,6 @@
     @parent
     <div class="text-center overwatch-title col-md-8">
       {{ $user->name }}'s profile
-      @if ($errors->any())
-        <a> YA DES erreurs c'est lourd </a>
-      @endif
     </div>
 
     <form class="form-inline" action="{{ URL::route('editProfile', ['id' => Auth::user()->id ]) }}" method="POST" enctype="multipart/form-data" id="edit_info">
@@ -90,9 +87,9 @@
           <div class="profile-edit-text col-sm-3" for="password_confirmation" style="padding-right: 20px; text-align: right;" ></div>
           <input type="password" class="form-control col-sm-9" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password" required>
             @if ($errors->has('password_confirmation'))
-                <span class="help-block">
+                <div class="help-block">
                     <strong>{{ $errors->first('password_confirmation') }}</strong>
-                </span>
+                </div>
             @endif
         </div>
 
