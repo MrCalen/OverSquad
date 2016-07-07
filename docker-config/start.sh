@@ -121,7 +121,7 @@ if [ -f "$BOOTSTRAP_FILE" ]; then
 fi
 
 echo "[i] Starting the websocket server"
-cd /var/www && php artisan w:serve &
+cd /var/www && php artisan ws:serve &
 
 echo "[i] Running the level update job"
 cd /var/www && php artisan oversquad:refresh &
