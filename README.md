@@ -7,6 +7,12 @@ What is OverSquad
 OverSquad allow OverWatch to meet each other and discuss tocreate an
 in-game experience together.
 
+Disclaimer
+---
+
+All images, background, font and colors belong to OverWatch and we use it only
+in order to better match the concept of the projet.
+
 How to Install
 ---
 
